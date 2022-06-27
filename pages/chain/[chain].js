@@ -46,7 +46,7 @@ function Chain({ changeTheme, theme, chain }) {
   return (
     <>
       <Head>
-        <title>{`${chain.name} | Chainlist`}</title>
+        <title>{`${chain.name} | Tracer`}</title>
         <meta
           name="description"
           content={`Connect to add ${chain.name} to your wallet`}

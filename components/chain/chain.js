@@ -17,13 +17,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
-const ExpandButton = withStyles((theme) => ({
-  root: {
-    width: "100%",
-    marginTop: "12px",
-    marginBottom: "-24px",
-  },
-}))(Button);
+// const ExpandButton = withStyles((theme) => ({
+//   root: {
+//     width: "100%",
+//     marginTop: "12px",
+//     marginBottom: "-24px",
+//   },
+// }))(Button);
 
 export default function Chain({ chain, buttonOnly }) {
   const { t } = useTranslation("common");
