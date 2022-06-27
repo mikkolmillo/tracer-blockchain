@@ -21,7 +21,16 @@ export async function getStaticProps({ locale }) {
 
   return {
     props: {
-      sortedChains,
+      sortedChains: [
+        {
+          name: 'Coinbase | DEV',
+          chainId: 3000,
+          nativeCurrency: {
+            symbol: 'Coinbase'
+          }
+        }
+      ],
+      // sortedChains,
       ...(await serverSideTranslations(locale, ["common"])),
     },
     revalidate: 3600,
