@@ -47,7 +47,7 @@ function Home({ changeTheme, theme, sortedChains }) {
   return (
     <>
       <Head>
-        <title>Chainlist</title>
+        <title>Tracer</title>
         <meta
           name="description"
           content="Connect to Add a Network to you Wallet. Checkout Latency of multiple RPC Providers of a Network"
