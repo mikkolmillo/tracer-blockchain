@@ -201,9 +201,9 @@ function Header(props) {
     setDarkMode(localStorageDarkMode ? localStorageDarkMode === "dark" : false);
   }, []);
 
-  const testnets = useTestnets((state) => state.testnets);
+  // const testnets = useTestnets((state) => state.testnets);
   const handleSearch = useSearch((state) => state.handleSearch);
-  const toggleTestnets = useTestnets((state) => state.toggleTestnets);
+  // const toggleTestnets = useTestnets((state) => state.toggleTestnets);
 
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -265,10 +265,10 @@ function Header(props) {
       </div>
 
       <div className={classes.switchContainer}>
-        <label className={classes.label}>
+        {/* <label className={classes.label}>
           <TestnetSwitch checked={testnets} onChange={toggleTestnets} />
           <span>Testnets</span>
-        </label>
+        </label> */}
         <div className={classes.themeSelectContainer}>
           <StyledSwitch
             icon={<Brightness2Icon className={classes.switchIcon} />}
