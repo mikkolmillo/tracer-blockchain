@@ -264,11 +264,14 @@ function Header(props) {
         </ThemeProvider>
       </div>
 
-      <div className={classes.switchContainer}>
-        {/* <label className={classes.label}>
+      {/* <div className={classes.switchContainer}>
+        <label className={classes.label}>
           <TestnetSwitch checked={testnets} onChange={toggleTestnets} />
           <span>Testnets</span>
-        </label> */}
+        </label>
+
+        Dark And Light Mode
+
         <div className={classes.themeSelectContainer}>
           <StyledSwitch
             icon={<Brightness2Icon className={classes.switchIcon} />}
@@ -277,7 +280,7 @@ function Header(props) {
             onChange={handleToggleChange}
           />
         </div>
-      </div>
+      </div> */}
 
       <Button
         disableElevation

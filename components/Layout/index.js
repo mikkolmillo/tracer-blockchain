@@ -37,9 +37,15 @@ export default function Layout({ changeTheme, theme, children }) {
                     <BsInfoCircle fontSize={17} color='#fff' />
                   </div>
                   <div>
-                    <p className="text-white font-light text-sm">
-                      {shortenAddress('0xD8C42316e2bAFa294C25fc8852dD4935a18511B4')}
-                    </p>
+                    <div className="flex justify-between">
+                      <p className="text-white font-light text-sm">
+                        {/* {shortenAddress('0xD8C42316e2bAFa294C25fc8852dD4935a18511B4')} */}
+                        Account Address
+                      </p>
+                      <p className="text-white font-semibold text-sm">
+                        0.00 ETH
+                      </p>
+                    </div>
                     <p className="text-white font-semibold text-lg mt-1">
                       Ethereum
                     </p>
