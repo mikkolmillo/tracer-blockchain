@@ -241,7 +241,7 @@ function Header(props) {
               fullWidth
               className={classes.searchContainer}
               variant="outlined"
-              placeholder="ETH, Fantom, ..."
+              placeholder="Coinbase, Kraken, ..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               InputProps={{
@@ -253,7 +253,8 @@ function Header(props) {
                 startAdornment: (
                   <InputAdornment position="start">
                     <Typography className={classes.searchInputAdnornment}>
-                      {t("search-networks")}
+                      {/* {t("search-networks")} */}
+                      Search Exchange
                     </Typography>
                   </InputAdornment>
                 ),
