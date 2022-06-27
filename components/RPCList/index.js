@@ -123,7 +123,7 @@ export default function RPCList({ chain }) {
           >
             this
           </a>{" "}
-          guide to change RPC endpoint's of Ethereum Mainnet
+          guide to change RPC endpoint&apos;s of Ethereum Mainnet
         </p>
       )}
     </Paper>
@@ -154,7 +154,7 @@ const Row = ({ values, chain, isEthMainnet }) => {
   const account = useAccount((state) => state.account);
 
   useEffect(() => {
-    // ignore first request to a url and refetch to calculate latency which doesn't include DNS lookup
+    // ignore first request to a url and refetch to calculate latency which doesn&apos;t include DNS lookup
     if (data && !rpcs.includes(data.url)) {
       refetch();
       addRpc(data.url);

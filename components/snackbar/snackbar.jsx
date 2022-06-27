@@ -138,7 +138,7 @@ class MySnackbar extends Component {
         messageType = "Hash"
 
         let snackbarMessage = 'https://etherscan.io/tx/'+message;
-        actions = [<Button variant="text" size="small" onClick={()=> window.open(snackbarMessage, "_blank")}>
+        actions = [<Button key={snackbarMessage} variant="text" size="small" onClick={()=> window.open(snackbarMessage, "_blank")}>
           View
         </Button>,
           <IconButton
