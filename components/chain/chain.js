@@ -138,25 +138,23 @@ export default function Chain({ chain, buttonOnly }) {
           </div>
         </div>
         <div className={classes.addButton}>
-          {/* <Button
+          <Button
             variant="outlined"
             color="primary"
-            onClick={() => addToNetwork(account, chain)}
+            // onClick={() => addToNetwork(account, chain)}
           >
-            {t(renderProviderText(account))}
-          </Button> */}
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-blue-600 hover:text-white focus:outline-none active:bg-blue-800 active:text-white"
-          >
+            {/* {t(renderProviderText(account))} */}
             Check
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-blue-600 hover:text-white focus:outline-none active:bg-blue-800 active:text-white"
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            // onClick={() => addToNetwork(account, chain)}
           >
+            {/* {t(renderProviderText(account))} */}
             Verify
-          </button>
+          </Button>
         </div>
         {/* {router.pathname === "/" && (
           <ExpandButton onClick={handleClick}>
