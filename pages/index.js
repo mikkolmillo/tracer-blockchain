@@ -24,11 +24,25 @@ export async function getStaticProps({ locale }) {
       sortedChains: [
         {
           name: 'Coinbase | DEV',
-          chainId: 3000,
+          chainId: '0x0000',
           nativeCurrency: {
-            symbol: 'Coinbase'
+            symbol: '0.00'
           }
-        }
+        },
+        {
+          name: 'Kraken | DEV',
+          chainId: '0x0000',
+          nativeCurrency: {
+            symbol: '0.00'
+          }
+        },
+        {
+          name: 'Binance | DEV',
+          chainId: '0x0000',
+          nativeCurrency: {
+            symbol: '0.00'
+          }
+        },
       ],
       // sortedChains,
       ...(await serverSideTranslations(locale, ["common"])),
