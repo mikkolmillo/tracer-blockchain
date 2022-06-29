@@ -8,64 +8,60 @@ import Layout from "../components/Layout";
 import classes from "../components/Layout/index.module.css";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export async function getStaticProps({ locale }) {
-  const chains = await fetcher("https://chainid.network/chains.json");
-  const chainTvls = await fetcher("https://api.llama.fi/chains");
+const cryptoExchanges = [
+  {
+    id: 1,
+    name: 'Coinbase',
+    img_url: '/crypto-exchange-icons/coinbase-icon-symbol.svg'
+  },
+  {
+    id: 2,
+    name: 'Binance',
+    img_url: '/crypto-exchange-icons/binance-icon-symbol.svg'
+  },
+  {
+    id: 3,
+    name: 'Kraken',
+    img_url: '/crypto-exchange-icons/kraken-icon-symbol.svg'
+  },
+]
 
-  const sortedChains = chains
-    .filter((c) => c.name !== "420coin") // same chainId as ronin
-    .map((chain) => populateChain(chain, chainTvls))
-    .sort((a, b) => {
-      return (b.tvl ?? 0) - (a.tvl ?? 0);
-    });
+export async function getStaticProps({ locale }) {
+  // const chains = await fetcher("https://chainid.network/chains.json");
+  // const chainTvls = await fetcher("https://api.llama.fi/chains");
+
+  // const sortedChains = chains
+  //   .filter((c) => c.name !== "420coin") // same chainId as ronin
+  //   .map((chain) => populateChain(chain, chainTvls))
+  //   .sort((a, b) => {
+  //     return (b.tvl ?? 0) - (a.tvl ?? 0);
+  //   });
 
   return {
     props: {
-      sortedChains: [
-        {
-          name: 'Coinbase | DEV',
-          chainId: '0x0000',
-          nativeCurrency: {
-            symbol: '0.00'
-          }
-        },
-        {
-          name: 'Kraken | DEV',
-          chainId: '0x0000',
-          nativeCurrency: {
-            symbol: '0.00'
-          }
-        },
-        {
-          name: 'Binance | DEV',
-          chainId: '0x0000',
-          nativeCurrency: {
-            symbol: '0.00'
-          }
-        },
-      ],
       // sortedChains,
+      cryptoExchanges,
       ...(await serverSideTranslations(locale, ["common"])),
     },
     revalidate: 3600,
   };
 }
 
-function Home({ changeTheme, theme, sortedChains }) {
-  const testnets = useTestnets((state) => state.testnets);
-  const search = useSearch((state) => state.search);
+function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
+  // const testnets = useTestnets((state) => state.testnets);
+  // const search = useSearch((state) => state.search);
 
-  const chains = useMemo(() => {
-    if (!testnets) {
-      return sortedChains.filter((item) => {
-        const testnet =
-          item.name?.toLowerCase().includes("test") ||
-          item.title?.toLowerCase().includes("test") ||
-          item.network?.toLowerCase().includes("test");
-        return !testnet;
-      });
-    } else return sortedChains;
-  }, [testnets, sortedChains]);
+  // const chains = useMemo(() => {
+  //   if (!testnets) {
+  //     return sortedChains.filter((item) => {
+  //       const testnet =
+  //         item.name?.toLowerCase().includes("test") ||
+  //         item.title?.toLowerCase().includes("test") ||
+  //         item.network?.toLowerCase().includes("test");
+  //       return !testnet;
+  //     });
+  //   } else return sortedChains;
+  // }, [testnets, sortedChains]);
 
   return (
     <>
@@ -79,25 +75,28 @@ function Home({ changeTheme, theme, sortedChains }) {
       </Head>
       <Layout changeTheme={changeTheme} theme={theme}>
         <div className={classes.cardsContainer}>
-          {(search === ""
+          {/* {(search === ""
             ? chains
             : chains.filter((chain) => {
-                //filter
-                return (
-                  chain.chain.toLowerCase().includes(search.toLowerCase()) ||
-                  chain.chainId
-                    .toString()
-                    .toLowerCase()
-                    .includes(search.toLowerCase()) ||
-                  chain.name.toLowerCase().includes(search.toLowerCase()) ||
-                  (chain.nativeCurrency ? chain.nativeCurrency.symbol : "")
-                    .toLowerCase()
-                    .includes(search.toLowerCase())
-                );
-              })
+              //filter
+              return (
+                chain.chain.toLowerCase().includes(search.toLowerCase()) ||
+                chain.chainId
+                  .toString()
+                  .toLowerCase()
+                  .includes(search.toLowerCase()) ||
+                chain.name.toLowerCase().includes(search.toLowerCase()) ||
+                (chain.nativeCurrency ? chain.nativeCurrency.symbol : "")
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+              );
+            })
           ).map((chain, idx) => {
             return <Chain chain={chain} key={idx} />;
-          })}
+          })} */}
+          {cryptoExchanges.map(exchange => (
+            <Chain exchange={exchange} key={exchange.id} />
+          ))}
         </div>
       </Layout>
     </>
