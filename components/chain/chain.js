@@ -149,26 +149,38 @@ export default function Chain({ exchange, chain, buttonOnly }) {
             </Typography>
           </div>
         </div> */}
-        <div className={classes.addButton}>
-          <Button
-            variant="outlined"
-            color="primary"
-          // onClick={() => addToNetwork(account, chain)}
-          >
-            {/* {t(renderProviderText(account))} */}
-            Check
-          </Button>
+        {account && account.address ? (
+          <div className={classes.addButton}>
+            <Button
+              variant="outlined"
+              color="primary"
+            // onClick={() => addToNetwork(account, chain)}
+            >
+              {/* {t(renderProviderText(account))} */}
+              Check
+            </Button>
 
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleVerifyClick}
-          // onClick={() => addToNetwork(account, chain)}
-          >
-            {/* {t(renderProviderText(account))} */}
-            Verify
-          </Button>
-        </div>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleVerifyClick}
+            // onClick={() => addToNetwork(account, chain)}
+            >
+              {/* {t(renderProviderText(account))} */}
+              Verify
+            </Button>
+          </div>
+        ) : (
+          <div className="flex w-full justify-center">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => addToNetwork(account, chain)}
+            >
+              {t(renderProviderText(account))}
+            </Button>
+          </div>
+        )}
         {router.pathname === "/" && (
           <ExpandButton onClick={handleClick}>
             <ExpandMoreIcon
@@ -180,7 +192,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
           </ExpandButton>
         )}
       </Paper>
-      {showVerify && <RPCList chain={chain} />}
+      {/* {showVerify && <RPCList chain={chain} />} */}
     </>
   );
 }
