@@ -66,8 +66,10 @@ export default function Chain({ exchange, chain, buttonOnly }) {
   //   }
   // };
 
-  const handleClick = () => {
-
+  const handleCloseClick = () => {
+    setShowCheck(false)
+    setShowVerify(false)
+    setShowSend(false)
   };
 
   const [showCheck, setShowCheck] = useState(false)
@@ -162,14 +164,14 @@ export default function Chain({ exchange, chain, buttonOnly }) {
         </div> */}
         {account && account.address ? (
           <Fragment>
-            <div className={classes.addButton}>
+            {/* <div className={classes.addButton}>
               <Button
                 variant="outlined"
                 color="primary"
-                // onClick={() => addToNetwork(account, chain)}
+                onClick={() => addToNetwork(account, chain)}
                 onClick={handleCheckClick}
               >
-                {/* {t(renderProviderText(account))} */}
+                {t(renderProviderText(account))}
                 Check
               </Button>
 
@@ -177,12 +179,12 @@ export default function Chain({ exchange, chain, buttonOnly }) {
                 variant="outlined"
                 color="primary"
                 onClick={handleVerifyClick}
-                // onClick={() => addToNetwork(account, chain)}
+                onClick={() => addToNetwork(account, chain)}
               >
-                {/* {t(renderProviderText(account))} */}
+                {t(renderProviderText(account))}
                 Verify
               </Button>
-            </div>
+            </div> */}
             <div className="flex justify-center w-full">
               <Button
                 variant="outlined"
@@ -207,7 +209,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
           </div>
         )}
         {router.pathname === "/" && (
-          <ExpandButton onClick={handleClick}>
+          <ExpandButton onClick={handleCloseClick}>
             <ExpandMoreIcon
               style={{
                 transform: showVerify ? "rotate(180deg)" : 
