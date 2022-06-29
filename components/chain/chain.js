@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, Fragment } from "react";
 import {
   Typography,
   Paper,
@@ -71,9 +71,18 @@ export default function Chain({ exchange, chain, buttonOnly }) {
 
   const [showCheck, setShowCheck] = useState(false)
   const [showVerify, setShowVerify] = useState(false)
+  const [showSend, setShowSend] = useState(false)
+
+  const handleCheckClick = () => {
+    setShowCheck((prevState) => !prevState)
+  }
 
   const handleVerifyClick = () => {
-    setShowVerify(true)
+    setShowVerify((prevState) => !prevState)
+  }
+
+  const handleSendClick = () => {
+    setShowSend((prevState) => !prevState)
   }
 
   // const showAddlInfo = chain.chainId === chainId;
@@ -111,6 +120,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
             width={28}
             height={28}
             className={classes.avatar}
+            alt={exchange.name}
           />
 
           <Tooltip title={exchange.name}>
@@ -150,26 +160,40 @@ export default function Chain({ exchange, chain, buttonOnly }) {
           </div>
         </div> */}
         {account && account.address ? (
-          <div className={classes.addButton}>
-            <Button
-              variant="outlined"
-              color="primary"
-            // onClick={() => addToNetwork(account, chain)}
-            >
-              {/* {t(renderProviderText(account))} */}
-              Check
-            </Button>
+          <Fragment>
+            <div className={classes.addButton}>
+              <Button
+                variant="outlined"
+                color="primary"
+                // onClick={() => addToNetwork(account, chain)}
+                onClick={handleCheckClick}
+              >
+                {/* {t(renderProviderText(account))} */}
+                Check
+              </Button>
 
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={handleVerifyClick}
-            // onClick={() => addToNetwork(account, chain)}
-            >
-              {/* {t(renderProviderText(account))} */}
-              Verify
-            </Button>
-          </div>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleVerifyClick}
+                // onClick={() => addToNetwork(account, chain)}
+              >
+                {/* {t(renderProviderText(account))} */}
+                Verify
+              </Button>
+            </div>
+            <div className="flex justify-center w-full">
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleSendClick}
+              // onClick={() => addToNetwork(account, chain)}
+              >
+                {/* {t(renderProviderText(account))} */}
+                Send
+              </Button>
+            </div>
+          </Fragment>
         ) : (
           <div className="flex w-full justify-center">
             <Button
@@ -185,7 +209,10 @@ export default function Chain({ exchange, chain, buttonOnly }) {
           <ExpandButton onClick={handleClick}>
             <ExpandMoreIcon
               style={{
-                transform: showVerify ? "rotate(180deg)" : "",
+                transform: showVerify ? "rotate(180deg)" : 
+                  showCheck ? "rotate(180deg)" : 
+                  showSend ? "rotate(180deg)" : 
+                  "",
                 transition: "all 0.2s ease",
               }}
             />
