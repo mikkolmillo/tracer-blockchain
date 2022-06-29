@@ -16,6 +16,7 @@ import { addToNetwork, renderProviderText } from "../../utils";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import Transaction from "../transaction";
 
 const ExpandButton = withStyles((theme) => ({
   root: {
@@ -220,6 +221,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
         )}
       </Paper>
       {/* {showVerify && <RPCList chain={chain} />} */}
+      {showSend && <Transaction />}
     </>
   );
 }
