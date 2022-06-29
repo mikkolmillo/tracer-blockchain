@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   Typography,
   Paper,
@@ -17,15 +17,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
-// const ExpandButton = withStyles((theme) => ({
-//   root: {
-//     width: "100%",
-//     marginTop: "12px",
-//     marginBottom: "-24px",
-//   },
-// }))(Button);
+const ExpandButton = withStyles((theme) => ({
+  root: {
+    width: "100%",
+    marginTop: "12px",
+    marginBottom: "-24px",
+  },
+}))(Button);
 
-export default function Chain({ chain, buttonOnly }) {
+export default function Chain({ exchange, chain, buttonOnly }) {
   const { t } = useTranslation("common");
   const account = useAccount((state) => state.account);
   const setAccount = useAccount((state) => state.setAccount);
@@ -48,26 +48,37 @@ export default function Chain({ chain, buttonOnly }) {
     };
   }, []);
 
-  const icon = useMemo(() => {
-    return chain.chainSlug
-      ? `https://defillama.com/chain-icons/rsz_${chain.chainSlug}.jpg`
-      : "/unknown-logo.png";
-  }, [chain]);
+  // const icon = useMemo(() => {
+  //   return chain.chainSlug
+  //     ? `https://defillama.com/chain-icons/rsz_${chain.chainSlug}.jpg`
+  //     : "/unknown-logo.png";
+  // }, [chain]);
 
-  const chainId = useChain((state) => state.id);
-  const updateChain = useChain((state) => state.updateChain);
+  // const chainId = useChain((state) => state.id);
+  // const updateChain = useChain((state) => state.updateChain);
+
+  // const handleClick = () => {
+  //   if (chain.chainId === chainId) {
+  //     updateChain(null);
+  //   } else {
+  //     updateChain(chain.chainId);
+  //   }
+  // };
 
   const handleClick = () => {
-    if (chain.chainId === chainId) {
-      updateChain(null);
-    } else {
-      updateChain(chain.chainId);
-    }
+
   };
 
-  const showAddlInfo = chain.chainId === chainId;
+  const [showCheck, setShowCheck] = useState(false)
+  const [showVerify, setShowVerify] = useState(false)
 
-  if (!chain) {
+  const handleVerifyClick = () => {
+    setShowVerify(true)
+  }
+
+  // const showAddlInfo = chain.chainId === chainId;
+
+  if (!exchange) {
     return <div></div>;
   }
 
@@ -76,7 +87,7 @@ export default function Chain({ chain, buttonOnly }) {
       <Button
         variant="outlined"
         color="primary"
-        onClick={() => addToNetwork(account, chain)}
+      // onClick={() => addToNetwork(account, chain)}
       >
         {renderProviderText(account)}
       </Button>
@@ -88,11 +99,11 @@ export default function Chain({ chain, buttonOnly }) {
       <Paper
         elevation={1}
         className={classes.chainContainer}
-        key={chain.chainId}
+        key={exchange.id}
       >
         <div className={classes.chainNameContainer}>
           <Image
-            src={icon}
+            src={exchange.img_url}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/chains/unknown-logo.png";
@@ -102,18 +113,19 @@ export default function Chain({ chain, buttonOnly }) {
             className={classes.avatar}
           />
 
-          <Tooltip title={chain.name}>
+          <Tooltip title={exchange.name}>
             <Typography
               variant="h3"
               className={classes.name}
               noWrap
               style={{ marginLeft: "24px" }}
             >
-              <Link href={`/chain/${chain.networkId}`}>{chain.name}</Link>
+              {exchange.name}
+              {/* <Link href={`/chain/${chain.networkId}`}>{chain.name}</Link> */}
             </Typography>
           </Tooltip>
         </div>
-        <div className={classes.chainInfoContainer}>
+        {/* <div className={classes.chainInfoContainer}>
           <div className={classes.dataPoint}>
             <Typography
               variant="subtitle1"
@@ -136,12 +148,12 @@ export default function Chain({ chain, buttonOnly }) {
               {chain.nativeCurrency ? chain.nativeCurrency.symbol : "none"}
             </Typography>
           </div>
-        </div>
+        </div> */}
         <div className={classes.addButton}>
           <Button
             variant="outlined"
             color="primary"
-            // onClick={() => addToNetwork(account, chain)}
+          // onClick={() => addToNetwork(account, chain)}
           >
             {/* {t(renderProviderText(account))} */}
             Check
@@ -150,24 +162,25 @@ export default function Chain({ chain, buttonOnly }) {
           <Button
             variant="outlined"
             color="primary"
-            // onClick={() => addToNetwork(account, chain)}
+            onClick={handleVerifyClick}
+          // onClick={() => addToNetwork(account, chain)}
           >
             {/* {t(renderProviderText(account))} */}
             Verify
           </Button>
         </div>
-        {/* {router.pathname === "/" && (
+        {router.pathname === "/" && (
           <ExpandButton onClick={handleClick}>
             <ExpandMoreIcon
               style={{
-                transform: showAddlInfo ? "rotate(180deg)" : "",
+                transform: showVerify ? "rotate(180deg)" : "",
                 transition: "all 0.2s ease",
               }}
             />
           </ExpandButton>
-        )} */}
+        )}
       </Paper>
-      {showAddlInfo && <RPCList chain={chain} />}
+      {showVerify && <RPCList chain={chain} />}
     </>
   );
 }

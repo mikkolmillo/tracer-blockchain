@@ -84,7 +84,7 @@ export default function RPCList({ chain }) {
 
   return (
     <Paper elevation={1} className={classes.disclosure}>
-      <table
+      {/* <table
         className={classes.table}
         style={{
           "--border-color": darkMode
@@ -125,7 +125,7 @@ export default function RPCList({ chain }) {
           </a>{" "}
           guide to change RPC endpoint&apos;s of Ethereum Mainnet
         </p>
-      )}
+      )} */}
     </Paper>
   );
 }
