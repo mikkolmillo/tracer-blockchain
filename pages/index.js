@@ -64,8 +64,6 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   //   } else return sortedChains;
   // }, [testnets, sortedChains]);
   const transactionCtx = useContext(TransactionContext)
-
-  console.log(transactionCtx.account);
   return (
     <>
       <Head>

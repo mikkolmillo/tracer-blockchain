@@ -11,19 +11,21 @@ if (typeof window !== "undefined") {
 }
 
 // ? fetch ethereum contract
-const getEthereumContract = () => {
+export const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum)
   const signer = provider.getSigner()
   const transactionContract = new ethers.Contract(contractAddress, contractAbi, signer)
 
-  console.log({
-    provider,
-    signer,
-    transactionContract
-  });
+  // console.log({
+  //   provider,
+  //   signer,
+  //   transactionContract
+  // });
+  return transactionContract
 }
 
 export const TransactionContext = createContext({
   account: '',
-  connectWallet: () => {}
+  connectWallet: () => {},
+  sendTransaction: () => {}
 })
