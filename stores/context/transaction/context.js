@@ -1,15 +1,16 @@
-import { useState, useEffect, createContext } from "react";
+import { createContext } from "react";
 import { ethers } from "ethers";
 
 import { contractAbi, contractAddress } from '../../../utils/constants'
 
-// get ethereum
-let ethereum = null
+// ? Get Ethereum Object
+export let ethereum = null
+
 if (typeof window !== "undefined") {
   ethereum = window.ethereum
 }
 
-// fetch ethereum contract
+// ? fetch ethereum contract
 const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum)
   const signer = provider.getSigner()
@@ -23,5 +24,5 @@ const getEthereumContract = () => {
 }
 
 export const TransactionContext = createContext({
-
+  connectWallet: () => {}
 })

@@ -1,10 +1,43 @@
-import { TransactionContext } from "./context"
+import { useState } from "react"
+import { useEffect } from "react"
+import { TransactionContext, ethereum } from "./context"
 
-const transactionContext = {
-  value: 'Hello'
-}
+export const TransactionProvider = ({ children }) => {
+  const [currentAccount, setCurrentAccount] = useState(null)
 
-export const TransactionProvider = ({children}) => {
+  useEffect(() => {
+    checkIfWalletIsConnected()
+  }, [])
+
+  // ? Connect wallet function
+  const connectWalletHandler = async() => {
+    try {
+      if (!ethereum) return alert('Please install Metamask')
+
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+
+      // ? Set account
+      setCurrentAccount(accounts[0])
+    } catch (error) {
+      console.error(error);      
+
+      throw new Error('No Ethereum Object')
+    }
+  }
+  
+  // ? Check if there is a wallet connected
+  const checkIfWalletIsConnected = async () => {
+    if (!ethereum) return alert('Please install Metamask')
+
+    // ? Get Ethereum Account
+    const accounts = await ethereum.request({ method: 'eth_accounts' })
+  }
+
+  const transactionContext = {
+    // ! NOT USED
+    connectWallet: connectWalletHandler
+  }
+
   return (
     <TransactionContext.Provider value={transactionContext}>
       {children}
