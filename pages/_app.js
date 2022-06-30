@@ -18,6 +18,7 @@ import * as Fathom from "fathom-client";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { appWithTranslation } from "next-i18next";
+import { TransactionProvider } from "../stores/context/transaction/provider";
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -62,7 +63,9 @@ function MyApp({ Component, pageProps }) {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={themeConfig}>
         <CssBaseline />
-        <Component {...pageProps} changeTheme={changeTheme} />
+        <TransactionProvider>
+          <Component {...pageProps} changeTheme={changeTheme} />
+        </TransactionProvider>
         <SnackbarController />
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />

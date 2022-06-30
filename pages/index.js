@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useContext } from "react";
 import Head from "next/head";
 import { withTheme } from "@material-ui/core/styles";
 import Chain from "../components/chain";
@@ -7,6 +7,7 @@ import { useSearch, useTestnets } from "../stores";
 import Layout from "../components/Layout";
 import classes from "../components/Layout/index.module.css";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { TransactionContext } from "../stores/context/transaction/context";
 
 const cryptoExchanges = [
   {
@@ -62,7 +63,9 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   //     });
   //   } else return sortedChains;
   // }, [testnets, sortedChains]);
+  const transactionCtx = useContext(TransactionContext)
 
+  console.log(transactionCtx.value);
   return (
     <>
       <Head>
