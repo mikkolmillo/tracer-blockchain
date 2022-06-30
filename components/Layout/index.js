@@ -4,12 +4,9 @@ import styles from "../../styles/Home.module.css";
 import classes from "./index.module.css";
 import { SiEthereum } from 'react-icons/si'
 import { BsInfoCircle } from 'react-icons/bs'
-import { useTranslation } from "next-i18next";
 import { shortenAddress } from '../../utils/shortenAddress'
 
 export default function Layout({ changeTheme, theme, children }) {
-  const { t } = useTranslation("common");
-
   // const url = '/logo.svg'
 
   return (

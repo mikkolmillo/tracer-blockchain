@@ -145,7 +145,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
               color="textSecondary"
               className={classes.dataPointHeader}
             >
-              ChainID
+              {t("account")}
             </Typography>
             <Typography variant="h5">{chain.chainId}</Typography>
           </div>
@@ -155,7 +155,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
               color="textSecondary"
               className={classes.dataPointHeader}
             >
-              {t("currency")}
+              {t("balance")}
             </Typography>
             <Typography variant="h5">
               {chain.nativeCurrency ? chain.nativeCurrency.symbol : "none"}
