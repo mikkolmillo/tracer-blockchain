@@ -1,13 +1,16 @@
-import React from "react";
 import Header from "../header";
 import styles from "../../styles/Home.module.css";
 import classes from "./index.module.css";
 import { SiEthereum } from 'react-icons/si'
 import { BsInfoCircle } from 'react-icons/bs'
 import { shortenAddress } from '../../utils/shortenAddress'
+import { useContext } from "react";
+import { TransactionContext } from "../../stores/context/transaction/context";
 
 export default function Layout({ changeTheme, theme, children }) {
   // const url = '/logo.svg'
+  const transactionCtx = useContext(TransactionContext)
+  const { account } = transactionCtx
 
   return (
     <div className={styles.container}>
@@ -35,17 +38,22 @@ export default function Layout({ changeTheme, theme, children }) {
                   </div>
                   <div>
                     <div className="flex justify-between">
-                      <p className="text-white font-light text-sm">
+                      <p className="text-white font-light text-lg">
                         {/* {shortenAddress('0xD8C42316e2bAFa294C25fc8852dD4935a18511B4')} */}
-                        Account Address
+                        {account && shortenAddress(account)}
                       </p>
                       <p className="text-white font-semibold text-sm">
-                        0.00 ETH
+                        {/* 0.00 ETH */}
                       </p>
                     </div>
-                    <p className="text-white font-semibold text-lg mt-1">
-                      Ethereum
-                    </p>
+                    <div className="flex justify-between">
+                      <p className="text-white font-semibold text-lg mt-1">
+                        Ethereum
+                      </p>
+                      {/* <p className="text-white font-semibold text-lg mt-1">
+                        Ethereum
+                      </p> */}
+                    </div>
                   </div>
                 </div>
               </div>
