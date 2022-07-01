@@ -66,11 +66,6 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   const transactionCtx = useContext(TransactionContext)
   const { sendMultiTransaction } = transactionCtx
 
-  useEffect(() => {
-    const owner = sendMultiTransaction()
-    console.log(owner);
-  }, [])
-
   return (
     <>
       <Head>
@@ -83,6 +78,9 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
       </Head>
       <Layout changeTheme={changeTheme} theme={theme}>
         <div className={classes.cardsContainer}>
+          <button type="submit" onClick={sendMultiTransaction}>
+            Send
+          </button>
           {/* {(search === ""
             ? chains
             : chains.filter((chain) => {

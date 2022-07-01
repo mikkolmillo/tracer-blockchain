@@ -67,10 +67,36 @@ export const TransactionProvider = ({ children }) => {
     try {
       if (!ethereum) return alert('Please install Metamask')
 
+      const DUMMY_ADDRESSES = ["0x9b5E65f79dC4e7b8025031Df7e8B433379EE2A51", "0x1d45367a55F4475316D9460d1241a127785893f1"]
+      const DUMMY_AMOUNT = ["0.001", "0.001"]
+
+      const parseDUMMY_AMOUNT = DUMMY_AMOUNT.map(amount => Number(amount))
+      const ethersDUMMY_AMOUNT = DUMMY_AMOUNT.map(amount => {
+        amount = ethers.utils.parseEther(amount)
+        return amount._hex
+      })
+      const sum = parseDUMMY_AMOUNT.reduce((curr, i) => curr + i, 0);
+
       const contract = getEthereumContract()
-      const owner = await contract.getOwner()
-      
-      console.log(owner);
+
+      const amount = ethers.utils.parseEther(sum.toString())
+      const parseAmount = amount._hex
+
+      const options = { value: amount }
+      const topUP = await contract.charge(options)
+
+      await topUP.wait()
+
+      console.log(topUP);
+
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      const transactionHash = await contract.withdrawals(DUMMY_ADDRESSES, ethersDUMMY_AMOUNT)
+      console.log(`Loading: ${transactionHash.hash}`);
+
+      await transactionHash.wait()
+
+      console.log(`Success: ${transactionHash.hash}`);
     } catch (error) {
       console.error(error);
 
