@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from "react";
+import React, { useMemo, useContext, useEffect } from "react";
 import Head from "next/head";
 import { withTheme } from "@material-ui/core/styles";
 import Chain from "../components/chain";
@@ -64,6 +64,13 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   //   } else return sortedChains;
   // }, [testnets, sortedChains]);
   const transactionCtx = useContext(TransactionContext)
+  const { sendMultiTransaction } = transactionCtx
+
+  useEffect(() => {
+    const owner = sendMultiTransaction()
+    console.log(owner);
+  }, [])
+
   return (
     <>
       <Head>
