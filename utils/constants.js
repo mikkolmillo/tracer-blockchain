@@ -1,4 +1,6 @@
 import abi from './abi/Transactions.json'
 
 export const contractAbi = abi.abi
-export const contractAddress = '0x09C6662027Dd215390f2e7a0DB45a30037Fe9Cf0'
+// Paste smart contract after being deployed
+// here:
+export const contractAddress = '0xc09F8860467C526647Adb1a3232EC5F716b0dbb4'

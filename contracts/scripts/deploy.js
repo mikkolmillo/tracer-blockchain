@@ -21,3 +21,4 @@ runMain()
 
 // ? Run npx hardhat script to deploy
 // npx hardhat run scripts/deploy.js --network ropsten
+// After getting the smart contract, paste it in the constants on the frontend side
