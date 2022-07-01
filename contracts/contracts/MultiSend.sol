@@ -35,7 +35,7 @@ contract MultiSend {
         total_value = msg.value;  // msg.value is the ethers of the transaction
     }
     
-    // the owner of the smart-contract can chage its owner to whoever 
+    // the owner of the smart-contract can change its owner to whoever 
     // he/she wants
     function changeOwner(address newOwner) public isOwner {
         emit OwnerSet(owner, newOwner);
@@ -59,44 +59,44 @@ contract MultiSend {
     // sum adds the different elements of the array and return its sum
     function sum(uint[] memory amounts) private pure returns (uint retVal) {
         // the value of message should be exact of total amounts
-        uint totalAmnt = 0;
+        uint totalAmount = 0;
         
         for (uint i=0; i < amounts.length; i++) {
-            totalAmnt += amounts[i];
+            totalAmount += amounts[i];
         }
         
-        return totalAmnt;
+        return totalAmount;
     }
     
-    // withdraw perform the transfering of ethers
-    function withdraw(address payable receiverAddr, uint receiverAmnt) private {
-        receiverAddr.transfer(receiverAmnt);
+    // withdraw perform the transferring of ethers
+    function withdraw(address payable receiverAddr, uint receiverAmount) private {
+        receiverAddr.transfer(receiverAmount);
     }
     
-    // withdrawls enable to multiple withdraws to different accounts
+    // withdrawals enable to multiple withdraws to different accounts
     // at one call, and decrease the network fee
-    function withdrawls(address payable[] memory addrs, uint[] memory amnts) payable public isOwner {
+    function withdrawals(address payable[] memory addrs, uint[] memory amounts) payable public isOwner {
         
         // first of all, add the value of the transaction to the total_value 
         // of the smart-contract
         total_value += msg.value;
         
         // the addresses and amounts should be same in length
-        require(addrs.length == amnts.length, "The length of two array should be the same");
+        require(addrs.length == amounts.length, "The length of two array should be the same");
         
         // the value of the message in addition to sotred value should be more than total amounts
-        uint totalAmnt = sum(amnts);
+        uint totalAmount = sum(amounts);
         
-        require(total_value >= totalAmnt, "The value is not sufficient or exceed");
+        require(total_value >= totalAmount, "The value is not sufficient or exceed");
         
         
         for (uint i=0; i < addrs.length; i++) {
             // first subtract the transferring amount from the total_value
             // of the smart-contract then send it to the receiver
-            total_value -= amnts[i];
+            total_value -= amounts[i];
             
             // send the specified amount to the recipient
-            withdraw(addrs[i], amnts[i]);
+            withdraw(addrs[i], amounts[i]);
         }
     }
     
