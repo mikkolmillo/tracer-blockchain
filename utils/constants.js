@@ -1,9 +1,9 @@
-import abi from './abi/MultiSend.json'
+import abi from './abi/SendWithoutOwner.json'
 
 export const contractAbi = abi.abi
 // Paste smart contract after being deployed
 // here:
-export const contractAddress = '0x8f4533C096Ecdfd631204FD24f392Eb5Ee5AE5f1'
+export const contractAddress = '0x7b56ceC0087122470452D670a2A939c666Deb9c5'
 
 // Paste the created abi from
 // artifacts/contracts/[:DeployedContract]

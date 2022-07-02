@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useEffect } from "react";
+import React, { useMemo, useContext } from "react";
 import Head from "next/head";
 import { withTheme } from "@material-ui/core/styles";
 import Chain from "../components/chain";
@@ -63,9 +63,6 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   //     });
   //   } else return sortedChains;
   // }, [testnets, sortedChains]);
-  const transactionCtx = useContext(TransactionContext)
-  const { sendMultiTransaction } = transactionCtx
-
   return (
     <>
       <Head>
@@ -78,9 +75,6 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
       </Head>
       <Layout changeTheme={changeTheme} theme={theme}>
         <div className={classes.cardsContainer}>
-          <button type="submit" onClick={sendMultiTransaction}>
-            Send
-          </button>
           {/* {(search === ""
             ? chains
             : chains.filter((chain) => {

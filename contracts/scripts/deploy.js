@@ -8,13 +8,23 @@
 // }
 
 // ? MultiSend Contract
+// const main = async() =>  {
+//   const MultiSend = await hre.ethers.getContractFactory("MultiSend");
+//   const multiSend = await MultiSend.deploy();
+
+//   await multiSend.deployed();
+
+//   console.log("MultiSend deployed to:", multiSend.address);
+// }
+
+// ? SendMultiple without owner Contract
 const main = async() =>  {
-  const MultiSend = await hre.ethers.getContractFactory("MultiSend");
-  const multiSend = await MultiSend.deploy();
+  const SendWithoutOwner = await hre.ethers.getContractFactory("SendWithoutOwner");
+  const sendWithoutOwner = await SendWithoutOwner.deploy();
 
-  await multiSend.deployed();
+  await sendWithoutOwner.deployed();
 
-  console.log("MultiSend deployed to:", multiSend.address);
+  console.log("SendWithoutOwner deployed to:", sendWithoutOwner.address);
 }
 
 const runMain = async() => {

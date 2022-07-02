@@ -10,8 +10,10 @@ export const TransactionProvider = ({ children }) => {
 
   // * Form Data
   const [formData, setFormData] = useState({
-    addressTo: '',
-    amount: '',
+    addressTo_One: '',
+    amount_One: '',
+    addressTo_Two: '',
+    amount_Two: '',
   })
 
   const changeHandler = (e) => {
@@ -63,35 +65,47 @@ export const TransactionProvider = ({ children }) => {
     }
   }
 
+  // ? Send to Multiple Addresses
   const sendMultiTransaction = async () => {
     try {
       if (!ethereum) return alert('Please install Metamask')
 
-      const DUMMY_ADDRESSES = ["0x9b5E65f79dC4e7b8025031Df7e8B433379EE2A51", "0x1d45367a55F4475316D9460d1241a127785893f1"]
-      const DUMMY_AMOUNT = ["0.001", "0.001"]
+      const contract = getEthereumContract()
 
-      const parseDUMMY_AMOUNT = DUMMY_AMOUNT.map(amount => Number(amount))
-      const ethersDUMMY_AMOUNT = DUMMY_AMOUNT.map(amount => {
+      // ? Get the data from the form
+      const {
+        addressTo_One,
+        amount_One,
+        addressTo_Two,
+        amount_Two,
+      } = formData
+
+      // ? Turn inputs into arrays
+      const addresses = [addressTo_One, addressTo_Two]
+      const amounts = [amount_One, amount_Two]
+
+      // ? Turn string amounts into numbers
+      const numAmounts = amounts.map(amount => Number(amount))
+      // ? Get the sum
+      const totalAmount = numAmounts.reduce((curr, i) => curr + i, 0);
+
+      // ? Turn inputted amounts into ethers hex values
+      const etherAmounts = amounts.map(amount => {
         amount = ethers.utils.parseEther(amount)
         return amount._hex
       })
-      const sum = parseDUMMY_AMOUNT.reduce((curr, i) => curr + i, 0);
 
-      const contract = getEthereumContract()
+      // ? Get the total Amount and parse into ethers
+      const topUpAmount = ethers.utils.parseEther(totalAmount.toString())
 
-      const amount = ethers.utils.parseEther(sum.toString())
-      const parseAmount = amount._hex
-
-      const options = { value: amount }
+      // ? Charge the smart contract with the given total Amount
+      const options = { value: topUpAmount }
       const topUP = await contract.charge(options)
 
       await topUP.wait()
 
-      console.log(topUP);
-
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      const transactionHash = await contract.withdrawals(DUMMY_ADDRESSES, ethersDUMMY_AMOUNT)
+      const transactionHash = await contract.withdrawals(addresses, etherAmounts)
       console.log(`Loading: ${transactionHash.hash}`);
 
       await transactionHash.wait()
