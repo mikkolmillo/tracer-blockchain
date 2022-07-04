@@ -71,6 +71,9 @@ export const TransactionProvider = ({ children }) => {
       // ? Get the data from the form
       const { addressTo, amount } = formData
 
+      console.log(currentAccount);
+      console.log(formData);
+
       // ? Get Ethereum Contract
       const contract = getEthereumContract()
       const parseAmount = ethers.utils.parseEther(amount)
