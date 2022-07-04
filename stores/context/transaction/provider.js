@@ -33,6 +33,7 @@ export const TransactionProvider = ({ children }) => {
 
       // ? Set account
       setCurrentAccount(accounts[0])
+      console.log(`Current Account: ${accounts[0]}`);
     } catch (error) {
       console.error(error);
 
@@ -52,6 +53,7 @@ export const TransactionProvider = ({ children }) => {
       if (accounts.length > 0) {
         setCurrentAccount(accounts[0])
 
+        console.log(`Connected Account: ${accounts[0]}`);
         // getAllTransactions()
       } else {
         console.log('No Accounts Found');
@@ -71,36 +73,38 @@ export const TransactionProvider = ({ children }) => {
       // ? Get the data from the form
       const { addressTo, amount } = formData
 
+      console.log(formData);
+
       // ? Get Ethereum Contract
-      const contract = getEthereumContract()
-      const parseAmount = ethers.utils.parseEther(amount)
+      // const contract = getEthereumContract()
+      // const parseAmount = ethers.utils.parseEther(amount)
 
-      // ! Send Transaction Method on Ethereum Object
-      await ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [{
-          from: currentAccount,
-          to: addressTo,
-          gas: '0x5208', // ? hex (21000 g/wei)
-          value: parseAmount._hex // ? 0.0001
-        }]
-      })
+      // // ! Send Transaction Method on Ethereum Object
+      // await ethereum.request({
+      //   method: 'eth_sendTransaction',
+      //   params: [{
+      //     from: currentAccount,
+      //     to: addressTo,
+      //     gas: '0x5208', // ? hex (21000 g/wei)
+      //     value: parseAmount._hex // ? 0.0001
+      //   }]
+      // })
 
-      // ! Store the transaction from above to the blockchain
-      const transactionHash = await contract.addToBlockchain(addressTo, parseAmount)
+      // // ! Store the transaction from above to the blockchain
+      // const transactionHash = await contract.addToBlockchain(addressTo, parseAmount)
 
-      setIsLoading(true)
-      console.log(`Loading: ${transactionHash.hash}`);
+      // setIsLoading(true)
+      // console.log(`Loading: ${transactionHash.hash}`);
 
-      // ! Wait the transaction to be finished
-      await transactionHash.wait()
+      // // ! Wait the transaction to be finished
+      // await transactionHash.wait()
 
-      setIsLoading(false)
-      console.log(`Success: ${transactionHash.hash}`);
+      // setIsLoading(false)
+      // console.log(`Success: ${transactionHash.hash}`);
 
-      // ! Get the transaction count
-      const tnxc_count = await contract.getTransactionCount()
-      setTransactionCount(tnxc_count.toNumber())
+      // // ! Get the transaction count
+      // const tnxc_count = await contract.getTransactionCount()
+      // setTransactionCount(tnxc_count.toNumber())
     } catch (error) {
       console.error(error);
 

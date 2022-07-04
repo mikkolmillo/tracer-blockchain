@@ -246,7 +246,7 @@ function Header(props) {
               // placeholder="Coinbase, Kraken, ..."
               // value={searchTerm}
               placeholder={
-                !account && t("connect-wallet")
+                !account ? t("connect-wallet") : ''
               }
               value={
                 account && account.address
