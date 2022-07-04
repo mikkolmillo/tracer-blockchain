@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 
 import {
@@ -31,6 +31,8 @@ import { formatAddress, getProvider, useDebounce } from "../../utils";
 
 import classes from "./header.module.css";
 import { useTranslation } from "next-i18next";
+
+import { TransactionContext } from "../../stores/context/transaction/context";
 
 const StyledSwitch = withStyles((theme) => ({
   root: {
@@ -153,6 +155,9 @@ function Header(props) {
     props.theme.palette.type === "dark" ? true : false
   );
 
+  const transactionCtx = useContext(TransactionContext)
+  const { walletConnect } = transactionCtx
+
   useEffect(() => {
     const accountConfigure = () => {
       const accountStore = stores.accountStore.getStore("account");
@@ -175,6 +180,10 @@ function Header(props) {
     };
   }, []);
 
+  useEffect(() => {
+    if (account && account.address) walletConnect(account.address)
+  }, [account])
+  
   const handleToggleChange = (event, val) => {
     setDarkMode(val);
     props.changeTheme(val);
@@ -214,7 +223,6 @@ function Header(props) {
     } else {
       handleSearch("");
     }
-    console.log(`debounce ${debouncedSearchTerm}`);
   }, [debouncedSearchTerm]);
 
   const router = useRouter();

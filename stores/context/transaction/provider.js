@@ -25,6 +25,7 @@ export const TransactionProvider = ({ children }) => {
   }, [])
 
   // ? Connect wallet function
+  // ? using Wallet Provider
   const connectWalletHandler = async () => {
     try {
       if (!ethereum) return alert('Please install Metamask')
@@ -38,6 +39,12 @@ export const TransactionProvider = ({ children }) => {
 
       throw new Error('No Ethereum Object')
     }
+  }
+
+  // ? Connect Wallet function
+  const walletConnect = (account) => {
+    setCurrentAccount(account)
+    console.log(currentAccount);
   }
 
   // ? Check if there is a wallet connected
@@ -117,6 +124,7 @@ export const TransactionProvider = ({ children }) => {
     // ! NOT USED
     connectWallet: connectWalletHandler,
     sendTransaction: sendTransactionHandler,
+    walletConnect,
     // ! Form Handling
     formData,
     changeHandler
