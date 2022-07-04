@@ -120,9 +120,9 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
             return <Chain chain={chain} key={idx} />;
           })} */}
           {account && account.address && <Transaction />}
-          {cryptoExchanges.map(exchange => (
+          {/* {cryptoExchanges.map(exchange => (
             <Chain exchange={exchange} key={exchange.id} />
-          ))}
+          ))} */}
         </div>
       </Layout>
     </>
