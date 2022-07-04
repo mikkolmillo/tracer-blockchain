@@ -214,6 +214,7 @@ function Header(props) {
     } else {
       handleSearch("");
     }
+    console.log(`debounce ${debouncedSearchTerm}`);
   }, [debouncedSearchTerm]);
 
   const router = useRouter();
@@ -234,6 +235,7 @@ function Header(props) {
           : classes.headerContainer
       }
     >
+      {/* Search Field */}
       <div className={classes.filterRow}>
         <ThemeProvider theme={searchTheme}>
           <Paper className={classes.searchPaper}>
@@ -290,6 +292,7 @@ function Header(props) {
         </div>
       </div> */}
 
+      {/* Connect Wallet Button */}
       <Button
         disableElevation
         className={classes.accountButton}

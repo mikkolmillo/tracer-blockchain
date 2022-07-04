@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from "react";
+import React, { useMemo, useEffect, useContext } from "react";
 import Head from "next/head";
 import { withTheme } from "@material-ui/core/styles";
 import Chain from "../components/chain";
@@ -8,6 +8,10 @@ import Layout from "../components/Layout";
 import classes from "../components/Layout/index.module.css";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { TransactionContext } from "../stores/context/transaction/context";
+
+import stores, { useAccount, useChain } from "../stores/index";
+import { ACCOUNT_CONFIGURED } from "../stores/constants";
+import Transaction from "../components/transaction";
 
 const cryptoExchanges = [
   {
@@ -63,7 +67,27 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   //     });
   //   } else return sortedChains;
   // }, [testnets, sortedChains]);
+  const account = useAccount((state) => state.account);
+  const setAccount = useAccount((state) => state.setAccount);
+
+  useEffect(() => {
+    const accountConfigure = () => {
+      const accountStore = stores.accountStore.getStore("account");
+      setAccount(accountStore);
+    };
+
+    stores.emitter.on(ACCOUNT_CONFIGURED, accountConfigure);
+
+    const accountStore = stores.accountStore.getStore("account");
+    setAccount(accountStore);
+
+    return () => {
+      stores.emitter.removeListener(ACCOUNT_CONFIGURED, accountConfigure);
+    };
+  }, []);
+
   const transactionCtx = useContext(TransactionContext)
+
   return (
     <>
       <Head>
@@ -95,6 +119,7 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
           ).map((chain, idx) => {
             return <Chain chain={chain} key={idx} />;
           })} */}
+          {account && account.address && <Transaction />}
           {cryptoExchanges.map(exchange => (
             <Chain exchange={exchange} key={exchange.id} />
           ))}

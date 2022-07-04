@@ -185,17 +185,17 @@ export default function Chain({ exchange, chain, buttonOnly }) {
                 Verify
               </Button>
             </div> */}
-            <div className="flex justify-center w-full">
+            {/* <div className="flex justify-center w-full">
               <Button
                 variant="outlined"
                 color="primary"
                 onClick={handleSendClick}
               // onClick={() => addToNetwork(account, chain)}
               >
-                {/* {t(renderProviderText(account))} */}
+                {t(renderProviderText(account))}
                 Send
               </Button>
-            </div>
+            </div> */}
           </Fragment>
         ) : (
           <div className="flex w-full justify-center">
@@ -223,7 +223,7 @@ export default function Chain({ exchange, chain, buttonOnly }) {
         )}
       </Paper>
       {/* {showVerify && <RPCList chain={chain} />} */}
-      {showSend && <Transaction />}
+      {/* {showSend && <Transaction />} */}
     </>
   );
 }
