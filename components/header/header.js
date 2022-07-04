@@ -241,8 +241,16 @@ function Header(props) {
               fullWidth
               className={classes.searchContainer}
               variant="outlined"
-              placeholder="Coinbase, Kraken, ..."
-              value={searchTerm}
+              // placeholder="Coinbase, Kraken, ..."
+              // value={searchTerm}
+              placeholder={
+                !account && t("connect-wallet")
+              }
+              value={
+                account && account.address
+                  ? account.address
+                  : ''
+              }
               onChange={(e) => setSearchTerm(e.target.value)}
               InputProps={{
                 endAdornment: (
@@ -254,7 +262,7 @@ function Header(props) {
                   <InputAdornment position="start">
                     <Typography className={classes.searchInputAdnornment}>
                       {/* {t("search-networks")} */}
-                      Search Exchange
+                      {/* Search Exchange */}
                     </Typography>
                   </InputAdornment>
                 ),
@@ -291,9 +299,8 @@ function Header(props) {
       >
         {account && account.address && (
           <div
-            className={`${classes.accountIcon} ${
-              classes[renderProviderLogo()]
-            }`}
+            className={`${classes.accountIcon} ${classes[renderProviderLogo()]
+              }`}
           ></div>
         )}
         <Typography variant="h5">
