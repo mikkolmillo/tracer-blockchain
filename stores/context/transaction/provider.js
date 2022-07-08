@@ -5,26 +5,28 @@ import { TransactionContext, getEthereumContract, ethereum } from "./context"
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null)
+  const [addressToUser, setAddressToUser] = useState('')
+  // const [addressToOwner, setAddressToOwner] = useState('')
+  // const [totalAmount, setAmount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [transactionCount, setTransactionCount] = useState(0) // TODO localStorage.getItem('transactionCount')
-
-  // * Form Data
-  const [formData, setFormData] = useState({
-    addressTo_One: '',
-    amount_One: '',
-    addressTo_Two: '',
-    amount_Two: '',
-  })
-
-  const changeHandler = (e) => {
-    setFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
-  }
 
   useEffect(() => {
     // * Start of the application
     // * check if there's a wallet
     checkIfWalletIsConnected()
   }, [])
+
+  // * Form Data
+  const [formData, setFormData] = useState({
+    addressSendToUser: '',
+    addressTo: '',
+    amount: '',
+  })
+
+  const changeHandler = (e) => {
+    setFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
+  }
 
   // ? Connect wallet function
   // ? using Wallet Provider
@@ -43,10 +45,9 @@ export const TransactionProvider = ({ children }) => {
     }
   }
 
-  // ? Connect Wallet function
+  // ? Connect wallet function
   const walletConnect = (account) => {
     setCurrentAccount(account)
-    console.log(currentAccount);
   }
 
   // ? Check if there is a wallet connected
@@ -80,16 +81,22 @@ export const TransactionProvider = ({ children }) => {
       const contract = getEthereumContract()
 
       // ? Get the data from the form
+      // const {
+      //   addressTo_One,
+      //   amount_One,
+      //   addressTo_Two,
+      //   amount_Two,
+      // } = formData
+
       const {
-        addressTo_One,
-        amount_One,
-        addressTo_Two,
-        amount_Two,
+        addressSendToUser,
+        addressTo,
+        amount
       } = formData
 
       // ? Turn inputs into arrays
-      const addresses = [addressTo_One, addressTo_Two]
-      const amounts = [amount_One, amount_Two]
+      const addresses = [addressSendToUser, addressTo]
+      const amounts = [amount, amount]
 
       // ? Turn string amounts into numbers
       const numAmounts = amounts.map(amount => Number(amount))
@@ -170,9 +177,24 @@ export const TransactionProvider = ({ children }) => {
   //   }
   // }
 
+  const settAddressSendToUser = addressToUser => {
+    setAddressToUser(addressToUser)
+    // ? Set Form Data with the user's inputted address
+    setFormData(currState => (
+      { ...currState, addressSendToUser: addressToUser }
+    ))
+  }
+
+  // const settAddressSendToOwner = addressToOwner => setAddressToOwner(addressToOwner)
+
   const transactionContext = {
     // * Transaction Context
     account: currentAccount,
+    addressSendToUser: addressToUser,
+    settAddressSendToUser,
+    // addressSendToOwner: addressToOwner,
+    // settAddressSendToOwner,
+    // amount: totalAmount,
     // ! NOT USED
     connectWallet: connectWalletHandler,
     // sendTransaction: sendTransactionHandler,

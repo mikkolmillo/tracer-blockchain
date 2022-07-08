@@ -26,6 +26,11 @@ export const getEthereumContract = () => {
 
 export const TransactionContext = createContext({
   account: '',
+  addressSendToUser: '',
+  settAddressSendToUser: () => {},
+  addressSendToOwner: '',
+  settAddressSendToOwner: () => {},
+  amount: '',
   connectWallet: () => {},
   sendTransaction: () => {}
 })

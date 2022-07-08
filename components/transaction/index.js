@@ -6,21 +6,20 @@ import { TransactionContext } from '../../stores/context/transaction/context'
 
 const Transaction = () => {
   const transactionCtx = useContext(TransactionContext)
-  const { changeHandler, formData, sendMultiTransaction } = transactionCtx
+  const { changeHandler, formData, sendMultiTransaction, addressSendToUser } = transactionCtx
 
   const submitHandler = (e) => {
     e.preventDefault()
 
     const {
-      addressTo_One,
-      amount_One,
-      addressTo_Two,
-      amount_Two,
+      addressSendToUser,
+      addressTo,
+      amount,
     } = formData
 
     // return nothing, leave this function
     // not submit anything
-    if (!addressTo_One || !amount_One || !addressTo_Two || !amount_Two) return
+    if (!addressSendToUser || !addressTo || !amount) return
 
     sendMultiTransaction()
   }
@@ -31,7 +30,7 @@ const Transaction = () => {
         <form onSubmit={submitHandler}>
           <input
             type="text"
-            name="addressTo_One"
+            name="addressTo"
             onChange={(e) => changeHandler(e)}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md"
             placeholder="Enter wallet address to send"
@@ -40,7 +39,7 @@ const Transaction = () => {
 
           <input
             type="number"
-            name="amount_One"
+            name="amount"
             step="0.000001"
             min={'0.00000000000001'}
             onChange={(e) => changeHandler(e)}

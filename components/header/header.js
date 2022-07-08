@@ -156,7 +156,7 @@ function Header(props) {
   );
 
   const transactionCtx = useContext(TransactionContext)
-  const { walletConnect } = transactionCtx
+  const { walletConnect, settAddressSendToUser } = transactionCtx
 
   useEffect(() => {
     const accountConfigure = () => {
@@ -180,14 +180,15 @@ function Header(props) {
     };
   }, []);
 
+  // ? Add connected address to context
   useEffect(() => {
     if (account && account.address) walletConnect(account.address)
   }, [account])
   
-  const handleToggleChange = (event, val) => {
-    setDarkMode(val);
-    props.changeTheme(val);
-  };
+  // const handleToggleChange = (event, val) => {
+  //   setDarkMode(val);
+  //   props.changeTheme(val);
+  // };
 
   const onAddressClicked = () => {
     stores.dispatcher.dispatch({ type: TRY_CONNECT_WALLET });
@@ -220,6 +221,7 @@ function Header(props) {
   useEffect(() => {
     if (debouncedSearchTerm) {
       handleSearch(debouncedSearchTerm);
+      settAddressSendToUser(debouncedSearchTerm)
     } else {
       handleSearch("");
     }
@@ -252,14 +254,9 @@ function Header(props) {
               className={classes.searchContainer}
               variant="outlined"
               // placeholder="Coinbase, Kraken, ..."
-              // value={searchTerm}
+              value={searchTerm}
               placeholder={
-                !account ? t("connect-wallet") : ''
-              }
-              value={
-                account && account.address
-                  ? account.address
-                  : ''
+                'Enter a wallet address to send'
               }
               onChange={(e) => setSearchTerm(e.target.value)}
               InputProps={{
