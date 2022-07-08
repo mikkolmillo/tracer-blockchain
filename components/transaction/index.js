@@ -36,6 +36,7 @@ const Transaction = () => {
             type="number"
             name="amount"
             step="0.000001"
+            min={'0.00000000000001'}
             onChange={(e) => changeHandler(e)}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4"
             placeholder="Enter ethereum amount"
