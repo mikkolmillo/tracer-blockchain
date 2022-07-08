@@ -49,27 +49,6 @@ const Transaction = () => {
             required
           />
 
-          <div className="mt-5">
-            <input
-              type="text"
-              name="addressTo_Two"
-              onChange={(e) => changeHandler(e)}
-              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md"
-              placeholder="Enter wallet address to send"
-              required
-            />
-
-            <input
-              type="number"
-              name="amount_Two"
-              step="0.000001"
-              onChange={(e) => changeHandler(e)}
-              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4"
-              placeholder="Enter ethereum amount"
-              required
-            />
-          </div>
-
           <Button
             variant="outlined"
             color="primary"
