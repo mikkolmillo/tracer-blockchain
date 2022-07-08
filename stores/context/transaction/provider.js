@@ -10,8 +10,10 @@ export const TransactionProvider = ({ children }) => {
 
   // * Form Data
   const [formData, setFormData] = useState({
-    addressTo: '',
-    amount: '',
+    addressTo_One: '',
+    amount_One: '',
+    addressTo_Two: '',
+    amount_Two: '',
   })
 
   const changeHandler = (e) => {
@@ -70,47 +72,52 @@ export const TransactionProvider = ({ children }) => {
     }
   }
 
-  // ? Send transaction function
-  const sendTransactionHandler = async () => {
+  // ? Send to Multiple Addresses
+  const sendMultiTransaction = async () => {
     try {
       if (!ethereum) return alert('Please install Metamask')
 
-      // ? Get the data from the form
-      const { addressTo, amount } = formData
-
-      console.log(currentAccount);
-      console.log(formData);
-
-      // ? Get Ethereum Contract
       const contract = getEthereumContract()
-      const parseAmount = ethers.utils.parseEther(amount)
 
-      // ! Send Transaction Method on Ethereum Object
-      await ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [{
-          from: currentAccount,
-          to: addressTo,
-          gas: '0x5208', // ? hex (21000 g/wei)
-          value: parseAmount._hex // ? 0.0001
-        }]
+      // ? Get the data from the form
+      const {
+        addressTo_One,
+        amount_One,
+        addressTo_Two,
+        amount_Two,
+      } = formData
+
+      // ? Turn inputs into arrays
+      const addresses = [addressTo_One, addressTo_Two]
+      const amounts = [amount_One, amount_Two]
+
+      // ? Turn string amounts into numbers
+      const numAmounts = amounts.map(amount => Number(amount))
+      // ? Get the sum
+      const totalAmount = numAmounts.reduce((curr, i) => curr + i, 0);
+
+      // ? Turn inputted amounts into ethers hex values
+      const etherAmounts = amounts.map(amount => {
+        amount = ethers.utils.parseEther(amount)
+        return amount._hex
       })
 
-      // ! Store the transaction from above to the blockchain
-      const transactionHash = await contract.addToBlockchain(addressTo, parseAmount)
+      // ? Get the total Amount and parse into ethers
+      const topUpAmount = ethers.utils.parseEther(totalAmount.toString())
 
-      setIsLoading(true)
+      // ? Charge the smart contract with the given total Amount
+      const options = { value: topUpAmount }
+      const topUP = await contract.charge(options)
+
+      await topUP.wait()
+
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      const transactionHash = await contract.withdrawals(addresses, etherAmounts)
       console.log(`Loading: ${transactionHash.hash}`);
 
-      // ! Wait the transaction to be finished
       await transactionHash.wait()
 
-      setIsLoading(false)
       console.log(`Success: ${transactionHash.hash}`);
-
-      // ! Get the transaction count
-      const tnxc_count = await contract.getTransactionCount()
-      setTransactionCount(tnxc_count.toNumber())
     } catch (error) {
       console.error(error);
 
@@ -118,13 +125,60 @@ export const TransactionProvider = ({ children }) => {
     }
   }
 
+  // ? Send transaction function
+  // const sendTransactionHandler = async () => {
+  //   try {
+  //     if (!ethereum) return alert('Please install Metamask')
+
+  //     // ? Get the data from the form
+  //     const { addressTo, amount } = formData
+
+  //     // ? Get Ethereum Contract
+  //     const contract = getEthereumContract()
+  //     const parseAmount = ethers.utils.parseEther(amount)
+
+  //     // ! Send Transaction Method on Ethereum Object
+  //     await ethereum.request({
+  //       method: 'eth_sendTransaction',
+  //       params: [{
+  //         from: currentAccount,
+  //         to: addressTo,
+  //         gas: '0x5208', // ? hex (21000 g/wei)
+  //         value: parseAmount._hex // ? 0.0001
+  //       }]
+  //     })
+
+  //     // ! Store the transaction from above to the blockchain
+  //     const transactionHash = await contract.addToBlockchain(addressTo, parseAmount)
+
+  //     setIsLoading(true)
+  //     console.log(`Loading: ${transactionHash.hash}`);
+
+  //     // ! Wait the transaction to be finished
+  //     await transactionHash.wait()
+
+  //     setIsLoading(false)
+  //     console.log(`Success: ${transactionHash.hash}`);
+
+  //     // ! Get the transaction count
+  //     const tnxc_count = await contract.getTransactionCount()
+  //     setTransactionCount(tnxc_count.toNumber())
+  //   } catch (error) {
+  //     console.error(error);
+
+  //     throw new Error('No Ethereum Object')
+  //   }
+  // }
+
   const transactionContext = {
     // * Transaction Context
     account: currentAccount,
     // ! NOT USED
     connectWallet: connectWalletHandler,
-    sendTransaction: sendTransactionHandler,
+    // sendTransaction: sendTransactionHandler,
+    // ! USED
     walletConnect,
+    sendMultiTransaction,
     // ! Form Handling
     formData,
     changeHandler

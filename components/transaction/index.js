@@ -6,26 +6,32 @@ import { TransactionContext } from '../../stores/context/transaction/context'
 
 const Transaction = () => {
   const transactionCtx = useContext(TransactionContext)
-  const { changeHandler, formData, sendTransaction } = transactionCtx
+  const { changeHandler, formData, sendMultiTransaction } = transactionCtx
 
   const submitHandler = (e) => {
     e.preventDefault()
 
-    const { addressTo, amount } = formData
+    const {
+      addressTo_One,
+      amount_One,
+      addressTo_Two,
+      amount_Two,
+    } = formData
 
     // return nothing, leave this function
     // not submit anything
-    if (!addressTo || !amount) return
+    if (!addressTo_One || !amount_One || !addressTo_Two || !amount_Two) return
 
-    sendTransaction()
+    sendMultiTransaction()
   }
+
   return (
     <Paper elevation={1} className={classes.disclosure}>
       <div className="">
         <form onSubmit={submitHandler}>
           <input
             type="text"
-            name="addressTo"
+            name="addressTo_One"
             onChange={(e) => changeHandler(e)}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md"
             placeholder="Enter wallet address to send"
@@ -34,7 +40,7 @@ const Transaction = () => {
 
           <input
             type="number"
-            name="amount"
+            name="amount_One"
             step="0.000001"
             min={'0.00000000000001'}
             onChange={(e) => changeHandler(e)}
@@ -42,6 +48,27 @@ const Transaction = () => {
             placeholder="Enter ethereum amount"
             required
           />
+
+          <div className="mt-5">
+            <input
+              type="text"
+              name="addressTo_Two"
+              onChange={(e) => changeHandler(e)}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md"
+              placeholder="Enter wallet address to send"
+              required
+            />
+
+            <input
+              type="number"
+              name="amount_Two"
+              step="0.000001"
+              onChange={(e) => changeHandler(e)}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4"
+              placeholder="Enter ethereum amount"
+              required
+            />
+          </div>
 
           <Button
             variant="outlined"
