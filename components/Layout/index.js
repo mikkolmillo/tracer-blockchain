@@ -83,7 +83,7 @@ export default function Layout({ changeTheme, theme, children }) {
             }
           >
             <Header changeTheme={changeTheme} onClick={showModalHandler} />
-            {showConnectWalletModal && <ConnectWalletModal onClose={closeModalHandler} />}
+            <ConnectWalletModal isShow={showConnectWalletModal} onClose={closeModalHandler} />
             {children}
           </div>
         </div>
