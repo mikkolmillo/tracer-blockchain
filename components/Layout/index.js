@@ -4,13 +4,20 @@ import classes from "./index.module.css";
 import { SiEthereum } from 'react-icons/si'
 import { BsInfoCircle } from 'react-icons/bs'
 import { shortenAddress } from '../../utils/shortenAddress'
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { TransactionContext } from "../../stores/context/transaction/context";
+import ConnectWalletModal from '../modal/connect-wallet'
 
 export default function Layout({ changeTheme, theme, children }) {
   // const url = '/logo.svg'
   const transactionCtx = useContext(TransactionContext)
   const { account } = transactionCtx
+
+  // ? Track modal state
+  const [showConnectWalletModal, setShowConnectWalletModal] = useState(false)
+
+  const showModalHandler = () => setShowConnectWalletModal(true)
+  const closeModalHandler = () => setShowConnectWalletModal(false)
 
   return (
     <div className={styles.container}>
@@ -75,7 +82,8 @@ export default function Layout({ changeTheme, theme, children }) {
                 : classes.listContainer
             }
           >
-            <Header changeTheme={changeTheme} />
+            <Header changeTheme={changeTheme} onClick={showModalHandler} />
+            {showConnectWalletModal && <ConnectWalletModal onClose={closeModalHandler} />}
             {children}
           </div>
         </div>

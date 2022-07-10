@@ -303,7 +303,8 @@ function Header(props) {
         className={classes.accountButton}
         variant="contained"
         color="secondary"
-        onClick={onAddressClicked}
+        // onClick={onAddressClicked}
+        onClick={props.onClick}
       >
         {account && account.address && (
           <div
