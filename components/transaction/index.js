@@ -5,6 +5,50 @@ import classes from './index.module.css'
 import { TransactionContext } from '../../stores/context/transaction/context'
 
 const networks = {
+  rsk: {
+    chainId: `0x${Number(30).toString(16)}`,
+    chainName: 'RSK Mainnet',
+    nativeCurrency: {
+      name: 'RBTC',
+      symbol: 'RBTC',
+      decimals: 18
+    },
+    rpcUrls: ['https://public-node.rsk.co'],
+    blockExplorerUrls: ['https://explorer.rsk.co']
+  },
+  ethereum: {
+    chainId: `0x${Number(1).toString(16)}`,
+    chainName: 'Ethereum Mainnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18
+    },
+    rpcUrls: ['https://mainnet.infura.io/v3/148c28b304ae438da3ba92dd6d8582f5'], // the game dust mikko
+    blockExplorerUrls: ['https://etherscan.io']
+  },
+  binance: {
+    chainId: `0x${Number(56).toString(16)}`,
+    chainName: 'Binance Smart Chain Mainnet',
+    nativeCurrency: {
+      name: 'BNB',
+      symbol: 'BNB',
+      decimals: 18
+    },
+    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+    blockExplorerUrls: ['https://bscscan.com']
+  },
+  fantom: {
+    chainId: `0x${Number(250).toString(16)}`,
+    chainName: 'Fantom Opera Mainnet',
+    nativeCurrency: {
+      name: 'FTM',
+      symbol: 'FTM',
+      decimals: 18
+    },
+    rpcUrls: ['https://rpc.ftm.tools/'],
+    blockExplorerUrls: ['https://ftmscan.com']
+  },
   polygon: {
     chainId: `0x${Number(137).toString(16)}`,
     chainName: 'Polygon Mainnet',
@@ -15,7 +59,18 @@ const networks = {
     },
     rpcUrls: ['https://polygon-rpc.com/'],
     blockExplorerUrls: ['https://polygonscan.com/']
-  }
+  },
+  avalanche: {
+    chainId: `0x${Number(43114).toString(16)}`,
+    chainName: 'Avalanche C-Chain Mainnet',
+    nativeCurrency: {
+      name: 'AVAX',
+      symbol: 'AVAX',
+      decimals: 18
+    },
+    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://snowtrace.io']
+  },
 }
 
 const testnets = {
@@ -98,11 +153,19 @@ const changeNetwork = async ({ network }) => {
           { chainId: `0x${Number(3).toString(16)}` }
         ]
       })
+    } else if (network ==='ethereum') {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          { chainId: `0x${Number(1).toString(16)}` }
+        ]
+      })
     } else {
       await window.ethereum.request({
         method: 'wallet_addEthereumChain',
         params: [
-          { ...testnets[network] }
+          // ! Change between testnets and mainnets
+          { ...networks[network] }
         ]
       })
     }
@@ -202,9 +265,9 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
-            onClick={() => changeNetworkHandler('ropsten')}
+            onClick={() => changeNetworkHandler('ethereum')}
           >
-            Ropsten
+            Ethereum
           </Button>
 
           <Button
