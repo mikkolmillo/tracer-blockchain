@@ -181,14 +181,14 @@ const Transaction = () => {
         console.log(params);
       }
 
-      if (network.network === 'ropsten') {
+      if (chainNetwork === 'ropsten') {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [
             { chainId: `0x${Number(3).toString(16)}` }
           ]
         })
-      } else if (network.network === 'ethereum') {
+      } else if (chainNetwork === 'ethereum') {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [
