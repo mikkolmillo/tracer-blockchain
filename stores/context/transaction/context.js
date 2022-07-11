@@ -26,11 +26,12 @@ export const getEthereumContract = () => {
 
 export const TransactionContext = createContext({
   account: '',
+  amount: '',
   addressSendToUser: '',
   settAddressSendToUser: () => {},
   addressSendToOwner: '',
   settAddressSendToOwner: () => {},
-  amount: '',
-  connectWallet: () => {},
+  connectMetaMaskWallet: () => {},
+  connectCoinbaseWallet: () => {},
   sendTransaction: () => {}
 })

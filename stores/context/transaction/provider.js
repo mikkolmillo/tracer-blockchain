@@ -6,8 +6,8 @@ import { TransactionContext, getEthereumContract, ethereum } from "./context"
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null)
   const [addressToUser, setAddressToUser] = useState('')
-  // const [addressToOwner, setAddressToOwner] = useState('')
-  // const [totalAmount, setAmount] = useState(0)
+  const [addressToOwner, setAddressToOwner] = useState('')
+  const [totalAmount, setAmount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [transactionCount, setTransactionCount] = useState(0) // TODO localStorage.getItem('transactionCount')
 
@@ -28,16 +28,51 @@ export const TransactionProvider = ({ children }) => {
     setFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
   }
 
-  // ? Connect wallet function
+  // ? Connect Metamask wallet function
   // ? using Wallet Provider
-  const connectWalletHandler = async () => {
+  const connectMetaMaskHandler = async () => {
     try {
-      if (!ethereum) return alert('Please install Metamask')
+      if (!ethereum) return alert('Please install Metamask Or Coinbase Wallet')
 
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+      // * edge case if MM and CBW are both installed
+      if (ethereum.providers?.length) {
+        ethereum.providers.forEach(async (provider) => {
+          if (provider.isMetaMask) console.log('metamask');
+        });
+      }
+
+      // const accounts = await ethereum.request({
+      //   method: 'eth_requestAccounts',
+      //   params: []
+      // })
 
       // ? Set account
-      setCurrentAccount(accounts[0])
+      // setCurrentAccount(accounts[0])
+    } catch (error) {
+      console.error(error);
+
+      throw new Error('No Ethereum Object')
+    }
+  }
+
+  const connectCoinbaseHandler = async () => {
+    try {
+      if (!ethereum) return alert('Please install Metamask Or Coinbase Wallet')
+
+      // * edge case if MM and CBW are both installed
+      if (ethereum.providers?.length) {
+        ethereum.providers.forEach(async (provider) => {
+          if (provider.isCoinbaseWallet) console.log('coinbase');
+        });
+      }
+
+      // const accounts = await ethereum.request({
+      //   method: 'eth_requestAccounts',
+      //   params: []
+      // })
+
+      // ? Set account
+      // setCurrentAccount(accounts[0])
     } catch (error) {
       console.error(error);
 
@@ -74,7 +109,7 @@ export const TransactionProvider = ({ children }) => {
   }
 
   // ? Send to Multiple Addresses
-  const sendMultiTransaction = async () => {
+  const sendMultiTransactionHandler = async () => {
     try {
       if (!ethereum) return alert('Please install Metamask')
 
@@ -185,22 +220,21 @@ export const TransactionProvider = ({ children }) => {
     ))
   }
 
-  // const settAddressSendToOwner = addressToOwner => setAddressToOwner(addressToOwner)
+  const settAddressSendToOwner = addressToOwner => setAddressToOwner(addressToOwner)
 
   const transactionContext = {
     // * Transaction Context
     account: currentAccount,
+    amount: totalAmount,
     addressSendToUser: addressToUser,
     settAddressSendToUser,
-    // addressSendToOwner: addressToOwner,
-    // settAddressSendToOwner,
-    // amount: totalAmount,
-    // ! NOT USED
-    connectWallet: connectWalletHandler,
-    // sendTransaction: sendTransactionHandler,
+    addressSendToOwner: addressToOwner,
+    settAddressSendToOwner,
+    connectMetaMaskWallet: connectMetaMaskHandler,
+    connectCoinbaseWallet: connectCoinbaseHandler,
+    sendTransaction: sendMultiTransactionHandler,
     // ! USED
     walletConnect,
-    sendMultiTransaction,
     // ! Form Handling
     formData,
     changeHandler
