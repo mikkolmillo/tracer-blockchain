@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState, useReducer } from "react"
 import { useEffect } from "react"
 import { ethers } from 'ethers'
 import { TransactionContext, getEthereumContract, ethereum } from "./context"
+import NetworkReducer, { defaultNetworkState } from "./reducer"
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null)
@@ -9,7 +10,9 @@ export const TransactionProvider = ({ children }) => {
   // const [addressToOwner, setAddressToOwner] = useState('')
   // const [totalAmount, setAmount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
-  const [transactionCount, setTransactionCount] = useState(0) // TODO localStorage.getItem('transactionCount')
+  // const [transactionCount, setTransactionCount] = useState(0) // TODO localStorage.getItem('transactionCount')
+
+  const [state, dispatch] = useReducer(NetworkReducer, defaultNetworkState)
 
   useEffect(() => {
     // * Start of the application
@@ -185,12 +188,27 @@ export const TransactionProvider = ({ children }) => {
     ))
   }
 
+  const changeTestnetNetwork = network => {
+    dispatch({ type: 'SWITCH_TESTNET', payload: { network } })
+  }
+
+  const changeMainnetNetwork = network => {
+    dispatch({ type: 'SWITCH_MAINNET', payload: { network } })
+  }
+
+  useEffect(() => {
+    console.log(state.network);
+  }, [state.network])
+  
   // const settAddressSendToOwner = addressToOwner => setAddressToOwner(addressToOwner)
 
   const transactionContext = {
     // * Transaction Context
     account: currentAccount,
     addressSendToUser: addressToUser,
+    network: state.network,
+    changeTestnetNetwork,
+    changeMainnetNetwork,
     settAddressSendToUser,
     // addressSendToOwner: addressToOwner,
     // settAddressSendToOwner,

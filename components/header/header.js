@@ -156,7 +156,7 @@ function Header(props) {
   );
 
   const transactionCtx = useContext(TransactionContext)
-  const { walletConnect, settAddressSendToUser } = transactionCtx
+  const { walletConnect, settAddressSendToUser, changeTestnetNetwork, changeMainnetNetwork } = transactionCtx
 
   useEffect(() => {
     const accountConfigure = () => {
@@ -184,7 +184,7 @@ function Header(props) {
   useEffect(() => {
     if (account && account.address) walletConnect(account.address)
   }, [account])
-  
+
   // const handleToggleChange = (event, val) => {
   //   setDarkMode(val);
   //   props.changeTheme(val);
@@ -212,8 +212,18 @@ function Header(props) {
   }, []);
 
   // const testnets = useTestnets((state) => state.testnets);
+  const [testnets, setTestnets] = useState(false)
   const handleSearch = useSearch((state) => state.handleSearch);
   // const toggleTestnets = useTestnets((state) => state.toggleTestnets);
+
+  useEffect(() => {
+    if (testnets) {
+      changeTestnetNetwork('testnet')
+    } else {
+      changeMainnetNetwork('mainnet')
+    }
+    // eslint-disable-next-line
+  }, [testnets])
 
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -279,23 +289,23 @@ function Header(props) {
         </ThemeProvider>
       </div>
 
-      {/* <div className={classes.switchContainer}>
+      <div className={classes.switchContainer}>
         <label className={classes.label}>
-          <TestnetSwitch checked={testnets} onChange={toggleTestnets} />
+          <TestnetSwitch checked={testnets} onChange={() => setTestnets(prevState => !prevState)} />
           <span>Testnets</span>
         </label>
 
-        Dark And Light Mode
+        {/* Dark And Light Mode */}
 
-        <div className={classes.themeSelectContainer}>
+        {/* <div className={classes.themeSelectContainer}>
           <StyledSwitch
             icon={<Brightness2Icon className={classes.switchIcon} />}
             checkedIcon={<WbSunnyOutlinedIcon className={classes.switchIcon} />}
             checked={darkMode}
             onChange={handleToggleChange}
           />
-        </div>
-      </div> */}
+        </div> */}
+      </div>
 
       {/* Connect Wallet Button */}
       <Button

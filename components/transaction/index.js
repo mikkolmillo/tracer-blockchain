@@ -4,7 +4,7 @@ import React from 'react'
 import classes from './index.module.css'
 import { TransactionContext } from '../../stores/context/transaction/context'
 
-const networks = {
+const mainnets = {
   rsk: {
     chainId: `0x${Number(30).toString(16)}`,
     chainName: 'RSK Mainnet',
@@ -142,41 +142,9 @@ const testnets = {
   },
 }
 
-const changeNetwork = async ({ network }) => {
-  try {
-    if (!window.ethereum) throw new Error('No Crypto Wallet Found')
-
-    if (network === 'ropsten') {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [
-          { chainId: `0x${Number(3).toString(16)}` }
-        ]
-      })
-    } else if (network ==='ethereum') {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [
-          { chainId: `0x${Number(1).toString(16)}` }
-        ]
-      })
-    } else {
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          // ! Change between testnets and mainnets
-          { ...networks[network] }
-        ]
-      })
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 const Transaction = () => {
   const transactionCtx = useContext(TransactionContext)
-  const { changeHandler, formData, sendMultiTransaction, addressSendToUser } = transactionCtx
+  const { changeHandler, formData, sendMultiTransaction, addressSendToUser, network } = transactionCtx
 
   useEffect(() => {
     window.ethereum.on('chainChanged', networkChanged)
@@ -190,7 +158,52 @@ const Transaction = () => {
   }
 
   const changeNetworkHandler = async (network) => {
-    await changeNetwork({ network })
+    await changeNetwork({ chainNetwork: network })
+  }  
+
+  const changeNetwork = async ({ chainNetwork }) => {
+    try {
+      if (!window.ethereum) throw new Error('No Crypto Wallet Found')
+
+      let params = []
+
+      if (network.network === 'testnet') {
+        params = [
+          // ! Change between testnets and mainnets
+          { ...testnets[chainNetwork] }
+        ]
+        console.log(params);
+      } else if (network.network === 'mainnet') {
+        params = [
+          // ! Change between testnets and mainnets
+          { ...mainnets[chainNetwork] }
+        ]
+        console.log(params);
+      }
+
+      if (network.network === 'ropsten') {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [
+            { chainId: `0x${Number(3).toString(16)}` }
+          ]
+        })
+      } else if (network.network === 'ethereum') {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [
+            { chainId: `0x${Number(1).toString(16)}` }
+          ]
+        })
+      } else {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params
+        })
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const submitHandler = (e) => {
@@ -248,9 +261,8 @@ const Transaction = () => {
             className='mt-4'
             onClick={() => changeNetworkHandler('binance')}
           >
-            Binance
+            {network.network === 'testnet' ? 'Binance Testnet' : 'Binance'}
           </Button>
-
 
           <Button
             variant="outlined"
@@ -258,16 +270,16 @@ const Transaction = () => {
             className='mt-4'
             onClick={() => changeNetworkHandler('rsk')}
           >
-            RSK Testnet
+            {network.network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
           </Button>
 
           <Button
             variant="outlined"
             color="primary"
             className='mt-4'
-            onClick={() => changeNetworkHandler('ethereum')}
+            onClick={network.network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
           >
-            Ethereum
+            {network.network === 'testnet' ? 'Ropsten' : 'Ethereum'}
           </Button>
 
           <Button
@@ -276,7 +288,7 @@ const Transaction = () => {
             className='mt-4'
             onClick={() => changeNetworkHandler('polygon')}
           >
-            Polygon
+            {network.network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
           </Button>
 
           <Button
@@ -285,7 +297,7 @@ const Transaction = () => {
             className='mt-4'
             onClick={() => changeNetworkHandler('fantom')}
           >
-            Fantom
+            {network.network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
           </Button>
 
           <Button
@@ -294,7 +306,7 @@ const Transaction = () => {
             className='mt-4'
             onClick={() => changeNetworkHandler('avalanche')}
           >
-            Avalanche
+            {network.network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
           </Button>
         </form>
       </div>
