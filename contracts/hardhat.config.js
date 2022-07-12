@@ -28,6 +28,14 @@ module.exports = {
       accounts: ['6e260defa4c747bbcb58c2a70be15c3501c7f9d73683e13ebb9296933f66fd30'],
       gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
     },
+    matic_testnet: {
+      // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
+      url: 'https://polygon-mumbai.g.alchemy.com/v2/CaEHub3mGCnYcEIdE1F7SoEPYhyuynC0',
+      // ! DEV ENV 1 Private Key
+      // * Address use to find the contract
+      accounts: ['6e260defa4c747bbcb58c2a70be15c3501c7f9d73683e13ebb9296933f66fd30'],
+      gasPrice: 35000000000, // default is 'auto' which breaks chains without the london hardfork
+    },
   },
   paths: {
     sources: "./contracts",
