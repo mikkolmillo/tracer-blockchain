@@ -106,7 +106,7 @@ const testnets = {
       decimals: 18
     },
     rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545'],
-    blockExplorerUrls: ['https://explorer.binance.org/smart-testnet']
+    blockExplorerUrls: ['https://testnet.bscscan.com/']
   },
   fantom: {
     chainId: `0x${Number(4002).toString(16)}`,
@@ -257,14 +257,14 @@ const Transaction = () => {
             required
           />
 
-          {/* <Button
+          <Button
             variant="outlined"
             color="primary"
             type="submit"
             className='mt-4'
           >
             Send Ethereum
-          </Button> */}
+          </Button>
 
           <Button
             variant="outlined"
