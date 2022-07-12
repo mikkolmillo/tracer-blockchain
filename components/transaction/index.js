@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react'
+import Image from 'next/image'
 import { Button, Paper } from '@material-ui/core'
 import React from 'react'
 import classes from './index.module.css'
@@ -142,6 +143,16 @@ const testnets = {
   },
 }
 
+const ButtonIcon = ({ crypto }) => {
+  if (crypto === '') crypto = 'unknown'
+  
+  return (
+    <div className="-ml-0.5 mr-2">
+      <Image src={`/wallets/${crypto}-logo.svg`} width={17} height={17} aria-hidden="true" alt={`${crypto} wallet`} />
+    </div>
+  )
+}
+
 const Transaction = () => {
   const transactionCtx = useContext(TransactionContext)
   const { changeHandler, formData, sendMultiTransaction, addressSendToUser, network } = transactionCtx
@@ -159,7 +170,7 @@ const Transaction = () => {
 
   const changeNetworkHandler = async (network) => {
     await changeNetwork({ chainNetwork: network })
-  }  
+  }
 
   const changeNetwork = async ({ chainNetwork }) => {
     try {
@@ -259,6 +270,7 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
+            startIcon={<ButtonIcon crypto={'binance'} />}
             onClick={() => changeNetworkHandler('binance')}
           >
             {network.network === 'testnet' ? 'Binance Testnet' : 'Binance'}
@@ -268,6 +280,7 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
+            startIcon={<ButtonIcon crypto={''} />}
             onClick={() => changeNetworkHandler('rsk')}
           >
             {network.network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
@@ -277,6 +290,7 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
+            startIcon={<ButtonIcon crypto={'ethereum'} />}
             onClick={network.network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
           >
             {network.network === 'testnet' ? 'Ropsten' : 'Ethereum'}
@@ -286,6 +300,7 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
+            startIcon={<ButtonIcon crypto={'polygon'} />}
             onClick={() => changeNetworkHandler('polygon')}
           >
             {network.network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
@@ -295,6 +310,7 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
+            startIcon={<ButtonIcon crypto={'fantom'} />}
             onClick={() => changeNetworkHandler('fantom')}
           >
             {network.network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
@@ -304,6 +320,7 @@ const Transaction = () => {
             variant="outlined"
             color="primary"
             className='mt-4'
+            startIcon={<ButtonIcon crypto={'avalanche'} />}
             onClick={() => changeNetworkHandler('avalanche')}
           >
             {network.network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
