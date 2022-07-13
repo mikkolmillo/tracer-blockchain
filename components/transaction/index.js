@@ -145,7 +145,7 @@ const testnets = {
 
 const ButtonIcon = ({ crypto }) => {
   if (crypto === '') crypto = 'unknown'
-  
+
   return (
     <div className="-ml-0.5 mr-2">
       <Image src={`/wallets/${crypto}-logo.svg`} width={17} height={17} aria-hidden="true" alt={`${crypto} wallet`} />
@@ -155,17 +155,42 @@ const ButtonIcon = ({ crypto }) => {
 
 const Transaction = () => {
   const transactionCtx = useContext(TransactionContext)
-  const { changeHandler, formData, sendMultiTransaction, addressSendToUser, network } = transactionCtx
+  const {
+    changeHandler,
+    formData,
+    sendMultiTransaction,
+    addressSendToUser,
+    network,
+    changeChainNetwork
+  } = transactionCtx
 
   useEffect(() => {
     window.ethereum.on('chainChanged', networkChanged)
     return () => {
       window.ethereum.removeListener('chainChanged', networkChanged)
     }
-  }, [])
+    // eslint-disable-next-line
+  }, [network])
 
   const networkChanged = (chainId) => {
-    console.log({ chainId });
+    // ? Testnets
+    if (network === 'testnet') {
+      if (chainId === testnets.ropsten.chainId) { // ? Ropsten
+        changeChainNetwork('ropsten')
+      } else if (chainId === testnets.polygon.chainId) { // ? Polygon
+        changeChainNetwork('polygon')
+      } else if (chainId === testnets.binance.chainId) { // ? Binance
+        changeChainNetwork('binance')
+      }
+    } else if (network === 'mainnet') {
+      if (chainId === mainnets.ethereum.chainId) { // ? Ethereum
+        changeChainNetwork('ethereum')
+      } else if (chainId === mainnets.polygon.chainId) { // ? Polygon
+        changeChainNetwork('polygon')
+      } else if (chainId === mainnets.binance.chainId) { // ? Binance
+        changeChainNetwork('binance')
+      }
+    }
   }
 
   const changeNetworkHandler = async (network) => {
@@ -178,18 +203,16 @@ const Transaction = () => {
 
       let params = []
 
-      if (network.network === 'testnet') {
+      if (network === 'testnet') {
         params = [
           // ! Change between testnets and mainnets
           { ...testnets[chainNetwork] }
         ]
-        console.log(params);
-      } else if (network.network === 'mainnet') {
+      } else if (network === 'mainnet') {
         params = [
           // ! Change between testnets and mainnets
           { ...mainnets[chainNetwork] }
         ]
-        console.log(params);
       }
 
       if (chainNetwork === 'ropsten') {
@@ -273,7 +296,7 @@ const Transaction = () => {
             startIcon={<ButtonIcon crypto={'binance'} />}
             onClick={() => changeNetworkHandler('binance')}
           >
-            {network.network === 'testnet' ? 'Binance Testnet' : 'Binance'}
+            {network === 'testnet' ? 'Binance Testnet' : 'Binance'}
           </Button>
 
           <Button
@@ -282,8 +305,9 @@ const Transaction = () => {
             className='mt-4'
             startIcon={<ButtonIcon crypto={''} />}
             onClick={() => changeNetworkHandler('rsk')}
+            disabled
           >
-            {network.network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
+            {network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
           </Button>
 
           <Button
@@ -291,9 +315,9 @@ const Transaction = () => {
             color="primary"
             className='mt-4'
             startIcon={<ButtonIcon crypto={'ethereum'} />}
-            onClick={network.network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
+            onClick={network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
           >
-            {network.network === 'testnet' ? 'Ropsten' : 'Ethereum'}
+            {network === 'testnet' ? 'Ropsten' : 'Ethereum'}
           </Button>
 
           <Button
@@ -303,7 +327,7 @@ const Transaction = () => {
             startIcon={<ButtonIcon crypto={'polygon'} />}
             onClick={() => changeNetworkHandler('polygon')}
           >
-            {network.network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
+            {network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
           </Button>
 
           <Button
@@ -312,8 +336,9 @@ const Transaction = () => {
             className='mt-4'
             startIcon={<ButtonIcon crypto={'fantom'} />}
             onClick={() => changeNetworkHandler('fantom')}
+            disabled
           >
-            {network.network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
+            {network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
           </Button>
 
           <Button
@@ -322,8 +347,9 @@ const Transaction = () => {
             className='mt-4'
             startIcon={<ButtonIcon crypto={'avalanche'} />}
             onClick={() => changeNetworkHandler('avalanche')}
+            disabled
           >
-            {network.network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
+            {network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
           </Button>
         </form>
       </div>

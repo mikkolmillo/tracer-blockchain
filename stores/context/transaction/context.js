@@ -1,7 +1,7 @@
 import { createContext } from "react";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 
-import { contractAbi, contractAddress } from '../../../utils/constants'
+// import { contractAbi, contractAddress } from '../../../utils/constants'
 
 // ? Get Ethereum Object
 export let ethereum = null
@@ -11,18 +11,18 @@ if (typeof window !== "undefined") {
 }
 
 // ? fetch ethereum contract
-export const getEthereumContract = () => {
-  const provider = new ethers.providers.Web3Provider(ethereum)
-  const signer = provider.getSigner()
-  const transactionContract = new ethers.Contract(contractAddress, contractAbi, signer)
+// export const getEthereumContract = () => {
+//   const provider = new ethers.providers.Web3Provider(ethereum)
+//   const signer = provider.getSigner()
+//   const transactionContract = new ethers.Contract(contractAddress, contractAbi, signer)
 
-  // console.log({
-  //   provider,
-  //   signer,
-  //   transactionContract
-  // });
-  return transactionContract
-}
+//   // console.log({
+//   //   provider,
+//   //   signer,
+//   //   transactionContract
+//   // });
+//   return transactionContract
+// }
 
 export const TransactionContext = createContext({
   account: '',

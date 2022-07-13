@@ -1,8 +1,15 @@
 import { useState, useReducer } from "react"
 import { useEffect } from "react"
 import { ethers } from 'ethers'
-import { TransactionContext, getEthereumContract, ethereum } from "./context"
+import { TransactionContext, ethereum } from "./context"
 import NetworkReducer, { defaultNetworkState } from "./reducer"
+
+import {
+  contractAbi,
+  contractAddress,
+  contractAddress_Matic_Testnet,
+  contractAddress_Bsc_Testnet
+} from '../../../utils/constants'
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null)
@@ -29,6 +36,15 @@ export const TransactionProvider = ({ children }) => {
 
   const changeHandler = (e) => {
     setFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
+  }
+
+  const getEthereumContract = () => {
+    let contract = ''
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner()
+    const transactionContract = new ethers.Contract(contract, contractAbi, signer)
+
+    return transactionContract
   }
 
   // ? Connect wallet function
@@ -196,10 +212,14 @@ export const TransactionProvider = ({ children }) => {
     dispatch({ type: 'SWITCH_MAINNET', payload: { network } })
   }
 
+  const changeChainNetwork = chain => {
+    dispatch({ type: 'SWITCH_CHAIN', payload: { chain } })
+  }
+
   useEffect(() => {
-    console.log(state.network);
-  }, [state.network])
-  
+    console.log(state.chain);
+  }, [state.chain])
+
   // const settAddressSendToOwner = addressToOwner => setAddressToOwner(addressToOwner)
 
   const transactionContext = {
@@ -209,6 +229,7 @@ export const TransactionProvider = ({ children }) => {
     network: state.network,
     changeTestnetNetwork,
     changeMainnetNetwork,
+    changeChainNetwork,
     settAddressSendToUser,
     // addressSendToOwner: addressToOwner,
     // settAddressSendToOwner,
