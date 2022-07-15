@@ -39,7 +39,11 @@ export const TransactionProvider = ({ children }) => {
   }
 
   const getEthereumContract = () => {
-    let contract = ''
+    let contract = null
+
+    if (state.chain === '') {
+      contract = contractAddress_ropsten_testnet // ? default contract is ropsten
+    }
 
     if (state.network === 'testnet' && state.chain === 'ropsten') {
       contract = contractAddress_ropsten_testnet
