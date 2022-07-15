@@ -212,7 +212,7 @@ function Header(props) {
   }, []);
 
   // const testnets = useTestnets((state) => state.testnets);
-  const [testnets, setTestnets] = useState(false)
+  const [testnets, setTestnets] = useState(true)
   const handleSearch = useSearch((state) => state.handleSearch);
   // const toggleTestnets = useTestnets((state) => state.toggleTestnets);
 
