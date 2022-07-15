@@ -24,6 +24,26 @@ export const TransactionProvider = ({ children }) => {
     // * Start of the application
     // * check if there's a wallet
     checkIfWalletIsConnected()
+
+    if (state.network === 'testnet') {
+      if (state.chain === 'ropsten') { // ? Ropsten
+        changeChainNetwork('ropsten')
+      } else if (state.chain === 'polygon') { // ? Polygon
+        changeChainNetwork('polygon')
+      } else if (state.chain === 'binance') { // ? Binance
+        changeChainNetwork('binance')
+      }
+    } else if (state.network === 'mainnet') {
+      if (state.chain === 'ethereum') { // ? Ethereum
+        changeChainNetwork('ethereum')
+      } else if (state.chain === 'polygon') { // ? Polygon
+        changeChainNetwork('polygon')
+      } else if (state.chain === 'binance') { // ? Binance
+        changeChainNetwork('binance')
+      }
+    }
+    
+    // eslint-disable-next-line
   }, [])
 
   // * Form Data

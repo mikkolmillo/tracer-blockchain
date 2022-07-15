@@ -1,6 +1,6 @@
 export const defaultNetworkState = {
   network: '',
-  chain: 'ropsten', // ! default chain is ropsten for development
+  chain: '', // ! default chain is ropsten for development
   isLoading: false,
   isVerifying: false
 }
