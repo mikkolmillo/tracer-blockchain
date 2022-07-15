@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Image from 'next/image'
 import { Button, Paper } from '@material-ui/core'
 import React from 'react'
@@ -185,6 +185,8 @@ const Transaction = () => {
     chain
   } = transactionCtx
 
+  const [transactHash, setTransactHash] = useState('')
+
   useEffect(() => {
     window.ethereum.on('chainChanged', networkChanged)
     return () => {
@@ -261,7 +263,15 @@ const Transaction = () => {
     }
   }
 
-  const submitHandler = (e) => {
+  console.log(network);
+  console.log(chain);
+  console.log(transactHash);
+
+  const emptyTransactionHashHandler = () => {
+    setTransactHash('')
+  }
+
+  const submitHandler = async (e) => {
     e.preventDefault()
 
     const {
@@ -274,12 +284,38 @@ const Transaction = () => {
     // not submit anything
     if (!addressSendToUser || !addressTo || !amount) return
 
-    sendMultiTransaction()
+    const transactionHash = await sendMultiTransaction()
+
+    if (transactionHash !== '') {
+      if (network === 'testnet') {
+        if (chain === 'ropsten') { // ? Ropsten
+          console.log(`${network} ${chain}`);
+          setTransactHash(`${testnets.ropsten.blockExplorerUrls}tx/${transactionHash}`)
+        } else if (chain === 'polygon') { // ? Polygon
+          console.log(`${network} ${chain}`);
+          setTransactHash(`${testnets.polygon.blockExplorerUrls}tx/${transactionHash}`)
+        } else if (chain === 'binance') { // ? Binance
+          console.log(`${network} ${chain}`);
+          setTransactHash(`${testnets.binance.blockExplorerUrls}tx/${transactionHash}`)
+        }
+      } else if (network === 'mainnet') {
+        if (chain === 'ethereum') { // ? Ropsten
+          console.log(`${network} ${chain}`);
+          setTransactHash(`${mainnets.ethereum.blockExplorerUrls}tx/${transactionHash}`)
+        } else if (chain === 'polygon') { // ? Polygon
+          console.log(`${network} ${chain}`);
+          setTransactHash(`${mainnets.polygon.blockExplorerUrls}tx/${transactionHash}`)
+        } else if (chain === 'binance') { // ? Binance
+          console.log(`${network} ${chain}`);
+          setTransactHash(`${mainnets.binance.blockExplorerUrls}tx/${transactionHash}`)
+        }
+      }
+    }
   }
 
   return (
     <Paper elevation={1} className={classes.disclosure}>
-      <Loader />
+      <Loader transactionHash={transactHash} onEmptyTransactHash={emptyTransactionHashHandler}/>
       <div className="">
         <form onSubmit={submitHandler}>
           <input
@@ -307,7 +343,6 @@ const Transaction = () => {
             color="primary"
             type="submit"
             className='mt-4'
-            // disabled={chain === ''}
           >
             Send Ethereum
           </Button>

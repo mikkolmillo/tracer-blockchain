@@ -161,6 +161,8 @@ export const TransactionProvider = ({ children }) => {
       dispatch({ type: 'SET_VERIFYING', payload: { isVerifying: false } })
 
       console.log(`Success: ${transactionHash.hash}`);
+      
+      return transactionHash.hash
     } catch (error) {
       console.error(error);
 
@@ -232,10 +234,6 @@ export const TransactionProvider = ({ children }) => {
   const changeChainNetwork = chain => {
     dispatch({ type: 'SWITCH_CHAIN', payload: { chain } })
   }
-
-  useEffect(() => {
-    console.log(state.chain);
-  }, [state.chain])
 
   // const settAddressSendToOwner = addressToOwner => setAddressToOwner(addressToOwner)
 
