@@ -4,6 +4,7 @@ import { Button, Paper } from '@material-ui/core'
 import React from 'react'
 import classes from './index.module.css'
 import { TransactionContext } from '../../stores/context/transaction/context'
+import Loader from '../modal/Loader'
 
 const mainnets = {
   rsk: {
@@ -277,6 +278,7 @@ const Transaction = () => {
 
   return (
     <Paper elevation={1} className={classes.disclosure}>
+      <Loader />
       <div className="">
         <form onSubmit={submitHandler}>
           <input

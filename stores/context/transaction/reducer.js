@@ -1,6 +1,8 @@
 export const defaultNetworkState = {
   network: '',
-  chain: ''
+  chain: '',
+  isLoading: false,
+  isVerifying: false
 }
 
 const NetworkReducer = (state, action) => {
@@ -21,6 +23,18 @@ const NetworkReducer = (state, action) => {
       return {
         ...state,
         chain: action.payload.chain
+      }
+
+    case 'SET_LOADING':
+      return {
+        ...state,
+        isLoading: action.payload.isLoading
+      }
+
+    case 'SET_VERIFYING':
+      return {
+        ...state,
+        isVerifying: action.payload.isVerifying
       }
 
     default:

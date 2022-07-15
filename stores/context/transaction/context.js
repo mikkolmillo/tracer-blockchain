@@ -32,5 +32,7 @@ export const TransactionContext = createContext({
   settAddressSendToOwner: () => {},
   amount: '',
   connectWallet: () => {},
-  sendTransaction: () => {}
+  sendTransaction: () => {},
+  isLoading: false,
+  isVerifying: false
 })

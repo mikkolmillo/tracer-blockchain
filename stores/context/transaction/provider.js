@@ -16,7 +16,6 @@ export const TransactionProvider = ({ children }) => {
   const [addressToUser, setAddressToUser] = useState('')
   // const [addressToOwner, setAddressToOwner] = useState('')
   // const [totalAmount, setAmount] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
   // const [transactionCount, setTransactionCount] = useState(0) // TODO localStorage.getItem('transactionCount')
 
   const [state, dispatch] = useReducer(NetworkReducer, defaultNetworkState)
@@ -110,6 +109,8 @@ export const TransactionProvider = ({ children }) => {
     try {
       if (!ethereum) return alert('Please install Metamask')
 
+      dispatch({ type: 'SET_LOADING', payload: { isLoading: true } })
+
       const contract = getEthereumContract()
 
       // ? Get the data from the form
@@ -149,12 +150,15 @@ export const TransactionProvider = ({ children }) => {
       const topUP = await contract.charge(options)
 
       await topUP.wait()
+      dispatch({ type: 'SET_LOADING', payload: { isLoading: false } })
 
+      dispatch({ type: 'SET_VERIFYING', payload: { isVerifying: true } })
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       const transactionHash = await contract.withdrawals(addresses, etherAmounts)
       console.log(`Loading: ${transactionHash.hash}`);
 
       await transactionHash.wait()
+      dispatch({ type: 'SET_VERIFYING', payload: { isVerifying: false } })
 
       console.log(`Success: ${transactionHash.hash}`);
     } catch (error) {
@@ -253,6 +257,8 @@ export const TransactionProvider = ({ children }) => {
     // ! USED
     walletConnect,
     sendMultiTransaction,
+    isLoading: state.isLoading,
+    isVerifying: state.isVerifying,
     // ! Form Handling
     formData,
     changeHandler
