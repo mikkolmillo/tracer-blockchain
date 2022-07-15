@@ -32,6 +32,30 @@ const Transaction = () => {
   const [transactHash, setTransactHash] = useState('')
 
   useEffect(() => {
+    const chainId = window.ethereum.networkVersion
+    const formattedChain = `0x${Number(chainId).toString(16)}`
+
+    if (network === 'testnet') {
+      if (formattedChain === testnets.ropsten.chainId) { // ? Ropsten
+        changeChainNetwork('ropsten')
+      } else if (formattedChain === testnets.polygon.chainId) { // ? Polygon
+        changeChainNetwork('polygon')
+      } else if (formattedChain === testnets.binance.chainId) { // ? Binance
+        changeChainNetwork('binance')
+      }
+    } else if (network === 'mainnet') {
+      if (formattedChain === mainnets.ethereum.chainId) { // ? Ethereum
+        changeChainNetwork('ethereum')
+      } else if (formattedChain === mainnets.polygon.chainId) { // ? Polygon
+        changeChainNetwork('polygon')
+      } else if (formattedChain === mainnets.binance.chainId) { // ? Binance
+        changeChainNetwork('binance')
+      }
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     window.ethereum.on('chainChanged', networkChanged)
     return () => {
       window.ethereum.removeListener('chainChanged', networkChanged)
@@ -159,7 +183,7 @@ const Transaction = () => {
 
   return (
     <Paper elevation={1} className={classes.disclosure}>
-      <Loader transactionHash={transactHash} onEmptyTransactHash={emptyTransactionHashHandler}/>
+      <Loader transactionHash={transactHash} onEmptyTransactHash={emptyTransactionHashHandler} />
       <div className="">
         <form onSubmit={submitHandler}>
           <input
