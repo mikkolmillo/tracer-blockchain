@@ -181,7 +181,8 @@ const Transaction = () => {
     sendMultiTransaction,
     addressSendToUser,
     network,
-    changeChainNetwork
+    changeChainNetwork,
+    chain
   } = transactionCtx
 
   useEffect(() => {
@@ -306,6 +307,7 @@ const Transaction = () => {
             color="primary"
             type="submit"
             className='mt-4'
+            // disabled={chain === ''}
           >
             Send Ethereum
           </Button>

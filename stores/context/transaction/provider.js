@@ -259,6 +259,7 @@ export const TransactionProvider = ({ children }) => {
     sendMultiTransaction,
     isLoading: state.isLoading,
     isVerifying: state.isVerifying,
+    chain: state.chain,
     // ! Form Handling
     formData,
     changeHandler

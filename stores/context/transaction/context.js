@@ -34,5 +34,6 @@ export const TransactionContext = createContext({
   connectWallet: () => {},
   sendTransaction: () => {},
   isLoading: false,
-  isVerifying: false
+  isVerifying: false,
+  chain: ''
 })
