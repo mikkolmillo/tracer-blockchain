@@ -1,12 +1,19 @@
 require('@nomiclabs/hardhat-waffle')
 require('dotenv').config()
 
+// TODO: Add private key of an account in order to deploy
 const {
+  // ? Private key of account to deploy
   PRIVATE_KEY,
+  // ? Test networks
   INFURA_ROPSTEN,
   INFURA_RINKEBY,
   ALCHEMY_POLYGON_MUMBAI,
-  BSC_TESTNET_URL
+  BSC_TESTNET_URL,
+  // ? Main networks
+  BSC_MAINNET_URL,
+  ETHEREUM_MAINNET_URL,
+  POLYGON_MAINNET_URL
 } = process.env
 
 module.exports = {
@@ -24,6 +31,20 @@ module.exports = {
     hardhat: {
       chainId: 1337
     },
+    // * Main Networks
+    ethereum: {
+      url: ETHEREUM_MAINNET_URL,
+      accounts: [],
+    },
+    polygon: {
+      url: POLYGON_MAINNET_URL,
+      accounts: [],
+    },
+    binance: {
+      url: BSC_MAINNET_URL,
+      accounts: [],
+    },
+    // * Test Networks
     ropsten: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
       url: INFURA_ROPSTEN,
