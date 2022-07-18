@@ -30,7 +30,7 @@ module.exports = {
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
       accounts: [PRIVATE_KEY],
-      gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
+      // gasPrice: 8000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
     rinkeby: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
@@ -38,7 +38,7 @@ module.exports = {
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
       accounts: [PRIVATE_KEY],
-      gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
+      // gasPrice: 8000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
     bsc_testnet: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
@@ -46,7 +46,7 @@ module.exports = {
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
       accounts: [PRIVATE_KEY],
-      gasPrice: 35000000000, // default is 'auto' which breaks chains without the london hardfork
+      // gasPrice: 35000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
     matic_testnet: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
@@ -54,7 +54,7 @@ module.exports = {
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
       accounts: [PRIVATE_KEY],
-      gasPrice: 35000000000, // default is 'auto' which breaks chains without the london hardfork
+      // gasPrice: 35000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
   },
   paths: {
