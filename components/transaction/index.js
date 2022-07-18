@@ -206,25 +206,40 @@ const Transaction = () => {
             required
           />
 
-          <Button
-            variant="outlined"
-            color="primary"
-            type="submit"
-            className='mt-4'
-          >
-            Send {chain}
-          </Button>
+          <div className="flex justify-evenly">
+            <Button
+              variant="outlined"
+              color="primary"
+              className='mt-4'
+              startIcon={<ButtonIcon crypto={'binance'} />}
+              onClick={() => changeNetworkHandler('binance')}
+              disabled={chain === 'binance'}
+            >
+              {network === 'testnet' ? 'Binance Testnet' : 'Binance'}
+            </Button>
 
-          <Button
-            variant="outlined"
-            color="primary"
-            className='mt-4'
-            startIcon={<ButtonIcon crypto={'binance'} />}
-            onClick={() => changeNetworkHandler('binance')}
-            disabled={chain === 'binance'}
-          >
-            {network === 'testnet' ? 'Binance Testnet' : 'Binance'}
-          </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              className='mt-4'
+              startIcon={<ButtonIcon crypto={'ethereum'} />}
+              onClick={network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
+              disabled={chain === 'ropsten' || chain === 'ethereum'}
+            >
+              {network === 'testnet' ? 'Ropsten' : 'Ethereum'}
+            </Button>
+
+            <Button
+              variant="outlined"
+              color="primary"
+              className='mt-4'
+              startIcon={<ButtonIcon crypto={'polygon'} />}
+              onClick={() => changeNetworkHandler('polygon')}
+              disabled={chain === 'polygon'}
+            >
+              {network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
+            </Button>
+          </div>
 
           {/* <Button
             variant="outlined"
@@ -236,28 +251,6 @@ const Transaction = () => {
           >
             {network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
           </Button> */}
-
-          <Button
-            variant="outlined"
-            color="primary"
-            className='mt-4'
-            startIcon={<ButtonIcon crypto={'ethereum'} />}
-            onClick={network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
-            disabled={chain === 'ropsten' || chain === 'ethereum'}
-          >
-            {network === 'testnet' ? 'Ropsten' : 'Ethereum'}
-          </Button>
-
-          <Button
-            variant="outlined"
-            color="primary"
-            className='mt-4'
-            startIcon={<ButtonIcon crypto={'polygon'} />}
-            onClick={() => changeNetworkHandler('polygon')}
-            disabled={chain === 'polygon'}
-          >
-            {network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
-          </Button>
 
           {/* <Button
             variant="outlined"
@@ -280,6 +273,18 @@ const Transaction = () => {
           >
             {network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
           </Button> */}
+
+          <div className="mt-4 flex justify-center">
+            <Button
+              variant="contained"
+              size='medium'
+              color="primary"
+              type="submit"
+              className='mt-4 h-12'
+            >
+              Send {chain}
+            </Button>
+          </div>
         </form>
       </div>
     </Paper>
