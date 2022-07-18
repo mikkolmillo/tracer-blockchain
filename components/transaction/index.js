@@ -212,7 +212,7 @@ const Transaction = () => {
             type="submit"
             className='mt-4'
           >
-            Send Ethereum
+            Send {chain}
           </Button>
 
           <Button
@@ -221,11 +221,12 @@ const Transaction = () => {
             className='mt-4'
             startIcon={<ButtonIcon crypto={'binance'} />}
             onClick={() => changeNetworkHandler('binance')}
+            disabled={chain === 'binance'}
           >
             {network === 'testnet' ? 'Binance Testnet' : 'Binance'}
           </Button>
 
-          <Button
+          {/* <Button
             variant="outlined"
             color="primary"
             className='mt-4'
@@ -234,7 +235,7 @@ const Transaction = () => {
             disabled
           >
             {network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
-          </Button>
+          </Button> */}
 
           <Button
             variant="outlined"
@@ -242,6 +243,7 @@ const Transaction = () => {
             className='mt-4'
             startIcon={<ButtonIcon crypto={'ethereum'} />}
             onClick={network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
+            disabled={chain === 'ropsten' || chain === 'ethereum'}
           >
             {network === 'testnet' ? 'Ropsten' : 'Ethereum'}
           </Button>
@@ -252,11 +254,12 @@ const Transaction = () => {
             className='mt-4'
             startIcon={<ButtonIcon crypto={'polygon'} />}
             onClick={() => changeNetworkHandler('polygon')}
+            disabled={chain === 'polygon'}
           >
             {network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
           </Button>
 
-          <Button
+          {/* <Button
             variant="outlined"
             color="primary"
             className='mt-4'
@@ -265,9 +268,9 @@ const Transaction = () => {
             disabled
           >
             {network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
-          </Button>
+          </Button> */}
 
-          <Button
+          {/* <Button
             variant="outlined"
             color="primary"
             className='mt-4'
@@ -276,7 +279,7 @@ const Transaction = () => {
             disabled
           >
             {network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
-          </Button>
+          </Button> */}
         </form>
       </div>
     </Paper>
