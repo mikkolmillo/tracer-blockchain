@@ -3,9 +3,20 @@ import abi from './abi/SendWithoutOwner.json'
 export const contractAbi = abi.abi
 // Paste smart contract after being deployed
 // here:
-export const contractAddress_ropsten_testnet = '0x417eE595b1921f0AF3E6952AE269D82E70a7C549'
-export const contractAddress_polygon_testnet = '0x8f54Fa30A5957Ad1672d1712dbA0C0b2794cE5FE'
-export const contractAddress_binance_testnet = '0x0Ff42Eb923b1F4FF2F2a7e6a2077E7289d5b8ABe'
+
+// ? Test networks
+// export const contractAddress_ropsten_testnet = '0x417eE595b1921f0AF3E6952AE269D82E70a7C549'
+export const contractAddress_ropsten_testnet = '0xE297Cd0b09dF5604307C9B70B16Fc263a9bCAc82'
+// export const contractAddress_polygon_testnet = '0x8f54Fa30A5957Ad1672d1712dbA0C0b2794cE5FE'
+export const contractAddress_polygon_testnet = '0xe000361DbD8db64f575DbEA54142cC87711bAe6c'
+// export const contractAddress_binance_testnet = '0x0Ff42Eb923b1F4FF2F2a7e6a2077E7289d5b8ABe'
+export const contractAddress_binance_testnet = '0x382Cbc1e051622E165206b07Ac4b08942E8d7EDa'
+
+// ? Main networks
+// TODO: Paste deployed contract here:
+export const contractAddress_ethereum_mainnet = ''
+export const contractAddress_polygon_mainnet = ''
+export const contractAddress_binance_mainnet = ''
 
 // Paste the created abi from
 // artifacts/contracts/[:DeployedContract]

@@ -1,4 +1,20 @@
 require('@nomiclabs/hardhat-waffle')
+require('dotenv').config()
+
+// TODO: Add private key of an account in order to deploy
+const {
+  // ? Private key of account to deploy
+  PRIVATE_KEY,
+  // ? Test networks
+  INFURA_ROPSTEN,
+  INFURA_RINKEBY,
+  ALCHEMY_POLYGON_MUMBAI,
+  BSC_TESTNET_URL,
+  // ? Main networks
+  BSC_MAINNET_URL,
+  ETHEREUM_MAINNET_URL,
+  POLYGON_MAINNET_URL
+} = process.env
 
 module.exports = {
   defaultNetwork: "ropsten",
@@ -12,37 +28,54 @@ module.exports = {
     }
   },
   networks: {
+    hardhat: {
+      chainId: 1337
+    },
+    // * Main Networks
+    ethereum: {
+      url: ETHEREUM_MAINNET_URL,
+      accounts: [],
+    },
+    polygon: {
+      url: POLYGON_MAINNET_URL,
+      accounts: [],
+    },
+    binance: {
+      url: BSC_MAINNET_URL,
+      accounts: [],
+    },
+    // * Test Networks
     ropsten: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
-      url: 'https://ropsten.infura.io/v3/148c28b304ae438da3ba92dd6d8582f5',
+      url: INFURA_ROPSTEN,
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
-      accounts: ['6e260defa4c747bbcb58c2a70be15c3501c7f9d73683e13ebb9296933f66fd30'],
-      gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
+      accounts: [PRIVATE_KEY],
+      // gasPrice: 8000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
     rinkeby: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
-      url: 'https://rinkeby.infura.io/v3/148c28b304ae438da3ba92dd6d8582f5',
+      url: INFURA_RINKEBY,
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
-      accounts: ['6e260defa4c747bbcb58c2a70be15c3501c7f9d73683e13ebb9296933f66fd30'],
-      gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
+      accounts: [PRIVATE_KEY],
+      // gasPrice: 8000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
     bsc_testnet: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
-      url: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+      url: BSC_TESTNET_URL,
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
-      accounts: ['6e260defa4c747bbcb58c2a70be15c3501c7f9d73683e13ebb9296933f66fd30'],
-      gasPrice: 35000000000, // default is 'auto' which breaks chains without the london hardfork
+      accounts: [PRIVATE_KEY],
+      // gasPrice: 35000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
     matic_testnet: {
       // url: 'https://eth-ropsten.alchemyapi.io/v2/WezfmiT2fd1KObLKfLX3BBbzgeI6Xy9y',
-      url: 'https://polygon-mumbai.g.alchemy.com/v2/CaEHub3mGCnYcEIdE1F7SoEPYhyuynC0',
+      url: ALCHEMY_POLYGON_MUMBAI,
       // ! DEV ENV 1 Private Key
       // * Address use to find the contract
-      accounts: ['6e260defa4c747bbcb58c2a70be15c3501c7f9d73683e13ebb9296933f66fd30'],
-      gasPrice: 35000000000, // default is 'auto' which breaks chains without the london hardfork
+      accounts: [PRIVATE_KEY],
+      // gasPrice: 35000000000, // ! default is 'auto' which breaks chains without the london hardfork
     },
   },
   paths: {

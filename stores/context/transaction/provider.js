@@ -8,7 +8,10 @@ import {
   contractAbi,
   contractAddress_ropsten_testnet,
   contractAddress_polygon_testnet,
-  contractAddress_binance_testnet
+  contractAddress_binance_testnet,
+  contractAddress_ethereum_mainnet,
+  contractAddress_polygon_mainnet,
+  contractAddress_binance_mainnet,
 } from '../../../utils/constants'
 
 export const TransactionProvider = ({ children }) => {
@@ -50,7 +53,15 @@ export const TransactionProvider = ({ children }) => {
       contract = contractAddress_polygon_testnet
     } else if (state.network === 'testnet' && state.chain === 'binance') {
       contract = contractAddress_binance_testnet
+    } else if (state.network === 'mainnet' && state.chain === 'ethereum') { // ? Main networks
+      contract = contractAddress_ethereum_mainnet
+    } else if (state.network === 'mainnet' && state.chain === 'polygon') {
+      contract = contractAddress_polygon_mainnet
+    } else if (state.network === 'mainnet' && state.chain === 'binance') {
+      contract = contractAddress_binance_mainnet
     }
+
+    console.log(contract);
 
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
