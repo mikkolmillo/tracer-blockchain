@@ -12,6 +12,7 @@ import { TransactionContext } from "../stores/context/transaction/context";
 import stores, { useAccount, useChain } from "../stores/index";
 import { ACCOUNT_CONFIGURED } from "../stores/constants";
 import Transaction from "../components/transaction";
+import TransactionList from "../components/transaction/list";
 
 const cryptoExchanges = [
   {
@@ -120,6 +121,7 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
             return <Chain chain={chain} key={idx} />;
           })} */}
           {account && account.address && <Transaction />}
+          <TransactionList />
           {/* {cryptoExchanges.map(exchange => (
             <Chain exchange={exchange} key={exchange.id} />
           ))} */}

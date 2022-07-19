@@ -11,7 +11,7 @@ const etherscanHandler = async (req, res) => {
 
       const data = await result.json()
 
-      res.status(200).json({ message: data })
+      res.status(200).json(data)
       break;
 
     default:
