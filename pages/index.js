@@ -9,8 +9,6 @@ import classes from "../components/Layout/index.module.css";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { TransactionContext } from "../stores/context/transaction/context";
 
-import stores, { useAccount, useChain } from "../stores/index";
-import { ACCOUNT_CONFIGURED } from "../stores/constants";
 import Transaction from "../components/transaction";
 import TransactionList from "../components/transaction/list";
 
@@ -68,26 +66,18 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
   //     });
   //   } else return sortedChains;
   // }, [testnets, sortedChains]);
-  const account = useAccount((state) => state.account);
-  const setAccount = useAccount((state) => state.setAccount);
-
-  useEffect(() => {
-    const accountConfigure = () => {
-      const accountStore = stores.accountStore.getStore("account");
-      setAccount(accountStore);
-    };
-
-    stores.emitter.on(ACCOUNT_CONFIGURED, accountConfigure);
-
-    const accountStore = stores.accountStore.getStore("account");
-    setAccount(accountStore);
-
-    return () => {
-      stores.emitter.removeListener(ACCOUNT_CONFIGURED, accountConfigure);
-    };
-  }, []);
 
   const transactionCtx = useContext(TransactionContext)
+  const {
+    addressSendToUser,
+    chain,
+    network,
+  } = transactionCtx
+
+  useEffect(() => {
+    console.log(network);
+    console.log(chain);
+  }, [chain, network])
 
   return (
     <>
@@ -120,8 +110,14 @@ function Home({ changeTheme, theme, sortedChains, cryptoExchanges }) {
           ).map((chain, idx) => {
             return <Chain chain={chain} key={idx} />;
           })} */}
-          {account && account.address && <Transaction />}
-          <TransactionList />
+          {addressSendToUser && <Transaction />}
+          {network && chain && (
+            <TransactionList
+              address={addressSendToUser}
+              chain={chain}
+              network={network}
+            />
+          )}
           {/* {cryptoExchanges.map(exchange => (
             <Chain exchange={exchange} key={exchange.id} />
           ))} */}

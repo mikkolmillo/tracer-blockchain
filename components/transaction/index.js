@@ -131,10 +131,6 @@ const Transaction = () => {
     }
   }
 
-  console.log(network);
-  console.log(chain);
-  console.log(transactHash);
-
   const emptyTransactionHashHandler = () => {
     setTransactHash('')
   }
