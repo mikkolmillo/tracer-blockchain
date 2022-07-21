@@ -263,6 +263,7 @@ function Header(props) {
               fullWidth
               className={classes.searchContainer}
               variant="outlined"
+              id="tracer_send_to_user"
               // placeholder="Coinbase, Kraken, ..."
               value={searchTerm}
               placeholder={
