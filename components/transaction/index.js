@@ -140,13 +140,16 @@ const Transaction = () => {
 
     const {
       addressSendToUser,
-      addressTo,
-      amount,
+      addressToOwner,
+      amountToUser,
+      amountToOwner
     } = formData
 
     // return nothing, leave this function
     // not submit anything
-    if (!addressSendToUser || !addressTo || !amount) return
+    if (!addressSendToUser || !addressToOwner || !amountToUser || !amountToOwner) return
+
+    console.log(formData);
 
     const transactionHash = await sendMultiTransaction()
 
@@ -184,22 +187,32 @@ const Transaction = () => {
         <form onSubmit={submitHandler}>
           <input
             type="text"
-            name="addressTo"
+            name="addressToOwner"
             onChange={(e) => changeHandler(e)}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md"
+            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md disabled:bg-gray-200"
             placeholder="Enter wallet address to send"
             required
           />
 
           <input
             type="number"
-            name="amount"
-            step="0.000001"
-            min={'0.00000000000001'}
+            name="amountToOwner"
+            step="0.00000000000001"
+            value={formData.amountToOwner}
             onChange={(e) => changeHandler(e)}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
             placeholder="Enter ethereum amount"
-            required
+            // required
+            disabled
+          />
+
+          <input
+            type="number"
+            name="amountToUser"
+            step="0.00000000000001"
+            onChange={(e) => changeHandler(e)}
+            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
+            placeholder="Enter ethereum amount"
           />
 
           <div className="flex justify-evenly">

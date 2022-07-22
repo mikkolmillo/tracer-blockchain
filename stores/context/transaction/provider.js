@@ -16,9 +16,7 @@ import {
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null)
-  const [addressToUser, setAddressToUser] = useState('')
-  // const [addressToOwner, setAddressToOwner] = useState('')
-  // const [totalAmount, setAmount] = useState(0)
+  const [addressToUser, setAddressToUser] = useState(null)
   // const [transactionCount, setTransactionCount] = useState(0) // TODO localStorage.getItem('transactionCount')
 
   const [state, dispatch] = useReducer(NetworkReducer, defaultNetworkState)
@@ -32,8 +30,10 @@ export const TransactionProvider = ({ children }) => {
   // * Form Data
   const [formData, setFormData] = useState({
     addressSendToUser: '',
-    addressTo: '',
-    amount: '',
+    // TODO: Get Owner Contract Method
+    addressToOwner: '',
+    amountToUser: 0,
+    amountToOwner: 0,
   })
 
   const changeHandler = (e) => {
@@ -125,22 +125,16 @@ export const TransactionProvider = ({ children }) => {
       const contract = getEthereumContract()
 
       // ? Get the data from the form
-      // const {
-      //   addressTo_One,
-      //   amount_One,
-      //   addressTo_Two,
-      //   amount_Two,
-      // } = formData
-
       const {
         addressSendToUser,
-        addressTo,
-        amount
+        addressToOwner,
+        amountToUser,
+        amountToOwner
       } = formData
 
       // ? Turn inputs into arrays
-      const addresses = [addressSendToUser, addressTo]
-      const amounts = [amount, amount]
+      const addresses = [addressSendToUser, addressToOwner]
+      const amounts = [amountToUser, amountToOwner]
 
       // ? Turn string amounts into numbers
       const numAmounts = amounts.map(amount => Number(amount))
@@ -243,6 +237,20 @@ export const TransactionProvider = ({ children }) => {
   }
 
   const changeChainNetwork = chain => {
+    if (chain === 'eth' || chain === 'ropsten') {
+      setFormData(currState => (
+        {...currState, amountToOwner: '0.000031703860579105005'}
+      ))
+    } else if (chain === 'binance') {
+      setFormData(currState => (
+        {...currState, amountToOwner: '0.0001887652508128926'}
+      ))
+    } else if (chain === 'polygon') {
+      setFormData(currState => (
+        {...currState, amountToOwner: '0.055245566543284906'}
+      ))
+    }
+
     dispatch({ type: 'SWITCH_CHAIN', payload: { chain } })
   }
 
