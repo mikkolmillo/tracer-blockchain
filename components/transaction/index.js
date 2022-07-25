@@ -6,6 +6,7 @@ import classes from './index.module.css'
 import { TransactionContext } from '../../stores/context/transaction/context'
 import Loader from '../modal/Loader'
 import { mainnets, testnets } from '../../utils/constants'
+import Steps from '../steps'
 
 const ButtonIcon = ({ crypto }) => {
   if (crypto === '') crypto = 'unknown'
@@ -183,6 +184,7 @@ const Transaction = () => {
   return (
     <Paper elevation={1} className={classes.disclosure}>
       <Loader transactionHash={transactHash} onEmptyTransactHash={emptyTransactionHashHandler} />
+      <Steps />
       <div className="">
         <form onSubmit={submitHandler}>
           <input
@@ -212,7 +214,7 @@ const Transaction = () => {
             step="0.00000000000001"
             onChange={(e) => changeHandler(e)}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
-            placeholder="Enter ethereum amount"
+            placeholder="Enter amount to send"
           />
 
           <div className="flex justify-evenly">
