@@ -134,7 +134,7 @@ export const TransactionProvider = ({ children }) => {
 
       // ? Turn inputs into arrays
       const addresses = [addressSendToUser, addressToOwner]
-      const amounts = [amountToUser, amountToOwner]
+      const amounts = [amountToUser.toFixed(10), amountToOwner.toFixed(10)]
 
       // ? Turn string amounts into numbers
       const numAmounts = amounts.map(amount => Number(amount))
