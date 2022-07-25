@@ -1,12 +1,13 @@
 import { CheckIcon } from '@heroicons/react/solid'
+import { useState, useEffect } from 'react'
 
 const steps = [
-  { id: '1', name: 'Pre-send', href: '#', status: 'complete' },
-  { id: '2', name: 'Full Send', href: '#', status: 'current' },
-  { id: '3', name: 'Preview', href: '#', status: 'upcoming' },
+  { id: 1, name: 'Pre-send', status: 'complete' },
+  { id: 2, name: 'Full Send', status: 'current' },
+  { id: 3, name: 'Preview', status: 'upcoming' },
 ]
 
-const index = () => {
+const Steps = ({ currentStep }) => {
   return (
     <nav aria-label="Progress" className='mb-6'>
       <ol role="list" className="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
@@ -66,4 +67,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Steps

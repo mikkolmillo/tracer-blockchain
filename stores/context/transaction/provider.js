@@ -239,15 +239,15 @@ export const TransactionProvider = ({ children }) => {
   const changeChainNetwork = chain => {
     if (chain === 'eth' || chain === 'ropsten') {
       setFormData(currState => (
-        {...currState, amountToOwner: '0.000031703860579105005'}
+        {...currState, amountToOwner: '0.0000317038'}
       ))
     } else if (chain === 'binance') {
       setFormData(currState => (
-        {...currState, amountToOwner: '0.0001887652508128926'}
+        {...currState, amountToOwner: '0.0001887652'}
       ))
     } else if (chain === 'polygon') {
       setFormData(currState => (
-        {...currState, amountToOwner: '0.055245566543284906'}
+        {...currState, amountToOwner: '0.0552455665'}
       ))
     }
 

@@ -31,6 +31,7 @@ const Transaction = () => {
   } = transactionCtx
 
   const [transactHash, setTransactHash] = useState('')
+  const [step, setStep] = useState(1)
 
   useEffect(() => {
     const chainId = window.ethereum.networkVersion
@@ -146,8 +147,8 @@ const Transaction = () => {
       amountToOwner
     } = formData
 
-    // return nothing, leave this function
-    // not submit anything
+    // ? return nothing, leave this function
+    // ? not submit anything
     if (!addressSendToUser || !addressToOwner || !amountToUser || !amountToOwner) return
 
     console.log(formData);
@@ -155,6 +156,8 @@ const Transaction = () => {
     const transactionHash = await sendMultiTransaction()
 
     if (transactionHash !== '') {
+      setStep(currState => currState + 1)
+      
       if (network === 'testnet') {
         if (chain === 'ropsten') { // ? Ropsten
           console.log(`${network} ${chain}`);
@@ -184,75 +187,76 @@ const Transaction = () => {
   return (
     <Paper elevation={1} className={classes.disclosure}>
       <Loader transactionHash={transactHash} onEmptyTransactHash={emptyTransactionHashHandler} />
-      <Steps />
+      <Steps currentStep={step} />
       <div className="">
-        <form onSubmit={submitHandler}>
-          <input
-            type="text"
-            name="addressToOwner"
-            onChange={(e) => changeHandler(e)}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md disabled:bg-gray-200"
-            placeholder="Enter wallet address to send"
-            required
-          />
+        {step !== 3 && (
+          <form onSubmit={submitHandler}>
+            <input
+              type="text"
+              name="addressToOwner"
+              onChange={(e) => changeHandler(e)}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md disabled:bg-gray-200"
+              placeholder="Enter wallet address to send"
+              required
+            />
 
-          <input
-            type="number"
-            name="amountToOwner"
-            step="0.00000000000001"
-            value={formData.amountToOwner}
-            onChange={(e) => changeHandler(e)}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
-            placeholder="Enter ethereum amount"
-            // required
-            disabled
-          />
+            <input
+              type="number"
+              name="amountToOwner"
+              step="0.00000000000001"
+              value={formData.amountToOwner}
+              onChange={(e) => changeHandler(e)}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
+              placeholder="Enter ethereum amount"
+              // required
+              disabled
+            />
 
-          <input
-            type="number"
-            name="amountToUser"
-            step="0.00000000000001"
-            onChange={(e) => changeHandler(e)}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
-            placeholder="Enter amount to send"
-          />
+            <input
+              type="number"
+              name="amountToUser"
+              step="0.00000000000001"
+              onChange={(e) => changeHandler(e)}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
+              placeholder="Enter amount to send"
+            />
 
-          <div className="flex justify-evenly">
-            <Button
-              variant="outlined"
-              color="primary"
-              className='mt-4'
-              startIcon={<ButtonIcon crypto={'binance'} />}
-              onClick={() => changeNetworkHandler('binance')}
-              disabled={chain === 'binance'}
-            >
-              {network === 'testnet' ? 'Binance Testnet' : 'Binance'}
-            </Button>
+            <div className="flex justify-evenly">
+              <Button
+                variant="outlined"
+                color="primary"
+                className='mt-4'
+                startIcon={<ButtonIcon crypto={'binance'} />}
+                onClick={() => changeNetworkHandler('binance')}
+                disabled={chain === 'binance'}
+              >
+                {network === 'testnet' ? 'Binance Testnet' : 'Binance'}
+              </Button>
 
-            <Button
-              variant="outlined"
-              color="primary"
-              className='mt-4'
-              startIcon={<ButtonIcon crypto={'ethereum'} />}
-              onClick={network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
-              disabled={chain === 'ropsten' || chain === 'ethereum'}
-            >
-              {network === 'testnet' ? 'Ropsten' : 'Ethereum'}
-            </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                className='mt-4'
+                startIcon={<ButtonIcon crypto={'ethereum'} />}
+                onClick={network === 'testnet' ? () => changeNetworkHandler('ropsten') : () => changeNetworkHandler('ethereum')}
+                disabled={chain === 'ropsten' || chain === 'ethereum'}
+              >
+                {network === 'testnet' ? 'Ropsten' : 'Ethereum'}
+              </Button>
 
-            <Button
-              variant="outlined"
-              color="primary"
-              className='mt-4'
-              startIcon={<ButtonIcon crypto={'polygon'} />}
-              onClick={() => changeNetworkHandler('polygon')}
-              disabled={chain === 'polygon'}
-            >
-              {network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
-            </Button>
-          </div>
+              <Button
+                variant="outlined"
+                color="primary"
+                className='mt-4'
+                startIcon={<ButtonIcon crypto={'polygon'} />}
+                onClick={() => changeNetworkHandler('polygon')}
+                disabled={chain === 'polygon'}
+              >
+                {network === 'testnet' ? 'Polygon Testnet' : 'Polygon'}
+              </Button>
+            </div>
 
-          {/* <Button
+            {/* <Button
             variant="outlined"
             color="primary"
             className='mt-4'
@@ -263,7 +267,7 @@ const Transaction = () => {
             {network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
           </Button> */}
 
-          {/* <Button
+            {/* <Button
             variant="outlined"
             color="primary"
             className='mt-4'
@@ -274,7 +278,7 @@ const Transaction = () => {
             {network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
           </Button> */}
 
-          {/* <Button
+            {/* <Button
             variant="outlined"
             color="primary"
             className='mt-4'
@@ -285,18 +289,20 @@ const Transaction = () => {
             {network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
           </Button> */}
 
-          <div className="mt-4 flex justify-center">
-            <Button
-              variant="contained"
-              size='medium'
-              color="primary"
-              type="submit"
-              className='mt-4 h-12'
-            >
-              Send {chain}
-            </Button>
-          </div>
-        </form>
+            <div className="mt-4 flex justify-center">
+              <Button
+                variant="contained"
+                size='medium'
+                color="primary"
+                type="submit"
+                className='mt-4 h-12'
+              >
+                {step === 1 && `Pre-Send ${chain}`}
+                {step === 2 && `Send ${chain}`}
+              </Button>
+            </div>
+          </form>
+        )}
       </div>
     </Paper>
   )
