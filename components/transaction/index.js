@@ -31,6 +31,7 @@ const Transaction = () => {
   } = transactionCtx
 
   const [transactHash, setTransactHash] = useState('')
+  const [amountToUser, setAmountToUser] = useState(formData.amountToUser)
   const [step, setStep] = useState(1)
 
   useEffect(() => {
@@ -64,6 +65,11 @@ const Transaction = () => {
     }
     // eslint-disable-next-line
   }, [network])
+
+  const onAmountChange = e => {
+    setAmountToUser(e.target.value)
+    changeHandler(e)
+  }
 
   const networkChanged = (chainId) => {
     // ? Testnets
@@ -157,7 +163,8 @@ const Transaction = () => {
 
     if (transactionHash !== '') {
       setStep(currState => currState + 1)
-      
+      setAmountToUser('')
+
       if (network === 'testnet') {
         if (chain === 'ropsten') { // ? Ropsten
           console.log(`${network} ${chain}`);
@@ -215,8 +222,9 @@ const Transaction = () => {
             <input
               type="number"
               name="amountToUser"
-              step="0.00000000000001"
-              onChange={(e) => changeHandler(e)}
+              step="0.00000001"
+              value={amountToUser}
+              onChange={(e) => onAmountChange(e)}
               className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm lg:text-base border-gray-300 rounded-md my-4 disabled:bg-gray-200"
               placeholder="Enter amount to send"
             />
@@ -257,37 +265,37 @@ const Transaction = () => {
             </div>
 
             {/* <Button
-            variant="outlined"
-            color="primary"
-            className='mt-4'
-            startIcon={<ButtonIcon crypto={''} />}
-            onClick={() => changeNetworkHandler('rsk')}
-            disabled
-          >
-            {network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
-          </Button> */}
+              variant="outlined"
+              color="primary"
+              className='mt-4'
+              startIcon={<ButtonIcon crypto={''} />}
+              onClick={() => changeNetworkHandler('rsk')}
+              disabled
+            >
+              {network === 'testnet' ? 'RSK Testnet' : 'RSK Mainnet'}
+            </Button>
 
-            {/* <Button
-            variant="outlined"
-            color="primary"
-            className='mt-4'
-            startIcon={<ButtonIcon crypto={'fantom'} />}
-            onClick={() => changeNetworkHandler('fantom')}
-            disabled
-          >
-            {network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
-          </Button> */}
+            <Button
+              variant="outlined"
+              color="primary"
+              className='mt-4'
+              startIcon={<ButtonIcon crypto={'fantom'} />}
+              onClick={() => changeNetworkHandler('fantom')}
+              disabled
+            >
+              {network === 'testnet' ? 'Fantom Testnet' : 'Fantom'}
+            </Button>
 
-            {/* <Button
-            variant="outlined"
-            color="primary"
-            className='mt-4'
-            startIcon={<ButtonIcon crypto={'avalanche'} />}
-            onClick={() => changeNetworkHandler('avalanche')}
-            disabled
-          >
-            {network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
-          </Button> */}
+            <Button
+              variant="outlined"
+              color="primary"
+              className='mt-4'
+              startIcon={<ButtonIcon crypto={'avalanche'} />}
+              onClick={() => changeNetworkHandler('avalanche')}
+              disabled
+            >
+              {network === 'testnet' ? 'Avalanche Testnet' : 'Avalanche'}
+            </Button> */}
 
             <div className="mt-4 flex justify-center">
               <Button

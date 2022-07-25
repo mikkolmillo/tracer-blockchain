@@ -8,10 +8,34 @@ const steps = [
 ]
 
 const Steps = ({ currentStep }) => {
+  const [allSteps, setAllSteps] = useState(steps)
+
+  useEffect(() => {
+    if (currentStep === 1) {
+      setAllSteps([
+        { id: 1, name: 'Pre-send', status: 'current' },
+        { id: 2, name: 'Full Send', status: 'upcoming' },
+        { id: 3, name: 'Preview', status: 'upcoming' },
+      ])
+    } else if (currentStep === 2) {
+      setAllSteps([
+        { id: 1, name: 'Pre-send', status: 'complete' },
+        { id: 2, name: 'Full Send', status: 'current' },
+        { id: 3, name: 'Preview', status: 'upcoming' },
+      ])
+    } else if (currentStep === 3) {
+      setAllSteps([
+        { id: 1, name: 'Pre-send', status: 'complete' },
+        { id: 2, name: 'Full Send', status: 'complete' },
+        { id: 3, name: 'Preview', status: 'complete' },
+      ])
+    }
+  }, [currentStep])
+  
   return (
     <nav aria-label="Progress" className='mb-6'>
       <ol role="list" className="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
-        {steps.map((step, stepIdx) => (
+        {allSteps.map((step, stepIdx) => (
           <li key={step.name} className="relative md:flex-1 md:flex">
             {step.status === 'complete' ? (
               <p className="group flex items-center w-full">
